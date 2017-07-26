@@ -64,7 +64,6 @@
         <!-- Default panel contents -->
         <div class="panel-heading"><span class="lead">Map</span></div>
         <form:hidden id="hosts" path="hosts" value="${hostsStr}" />
-
             <div id="containerDiv">
                 <table class="table table-hover" width="100%">
                     <tr>

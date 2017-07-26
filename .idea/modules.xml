@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/foodi.iml" filepath="$PROJECT_DIR$/foodi.iml" />
+      <module fileurl="file://$PROJECT_DIR$/core/foodi-core.iml" filepath="$PROJECT_DIR$/core/foodi-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/core-api/foodi-core-api.iml" filepath="$PROJECT_DIR$/core-api/foodi-core-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dao/foodi-dao.iml" filepath="$PROJECT_DIR$/dao/foodi-dao.iml" />
+      <module fileurl="file://$PROJECT_DIR$/message/foodi-message.iml" filepath="$PROJECT_DIR$/message/foodi-message.iml" />
+      <module fileurl="file://$PROJECT_DIR$/model/foodi-model.iml" filepath="$PROJECT_DIR$/model/foodi-model.iml" />
+      <module fileurl="file://$PROJECT_DIR$/web/foodi-web.iml" filepath="$PROJECT_DIR$/web/foodi-web.iml" />
+    </modules>
+  </component>
+</project>

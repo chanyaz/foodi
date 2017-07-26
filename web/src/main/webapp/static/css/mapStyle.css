@@ -1,0 +1,114 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/*
+    Created on : Jul 29, 2016, 9:15:54 PM
+    Author     : alireza
+*/
+
+
+html {
+    height: 100%;
+}
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+#map-canvas {
+    width: 100%;
+    height: 600px;
+    /*border-color: #2F2F2F;*/
+    border-width: thin
+}
+#iw_container .iw_title {
+    font-size: 16px;
+    font-weight: bold;
+}
+.iw_content {
+    padding: 15px 15px 15px 0;
+}
+
+/*div.container {*/
+    /*width: 100%;*/
+    /*border: 1px solid gray;*/
+    /*overflow: hidden;*/
+/*}*/
+
+header, footer {
+    padding: 1em;
+    color: white;
+    background-color: black;
+    clear: left;
+    text-align: center;
+}
+
+nav {
+    float: left;
+    width: 70%;
+    margin: 0;
+    padding: 1em;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+nav ul a {
+    text-decoration: none;
+}
+
+article {
+    margin-left: 20px;
+    padding: 1em;
+    overflow: hidden;
+}
+
+
+
+
+
+
+#containerDiv {
+    overflow: hidden;
+    margin-top: 7px;
+    margin-left: 7px;
+    margin-right: 7px;
+    clear: both;
+}
+
+.containerDiv,#leftDiv,#rightDiv {
+    background: rgba(255, 255, 255, .3);
+    border-color: rgba(255, 255, 255, .6);
+    border-style: solid;
+    border-width: 1px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    /*width: 414px;*/
+}
+
+/*All tables */
+
+#containerDiv table td {
+    border: 1px solid gray
+}
+
+
+#leftDiv {
+    float: left;
+    width: 70%;
+    padding: 10px;
+}
+
+
+#rightDiv {
+    float: right;
+    width: 25%;
+    padding: 10px;
+}
+
+

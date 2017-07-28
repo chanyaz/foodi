@@ -10,6 +10,8 @@ import java.io.IOException;
  */
 public class ImageHolder extends SimpleTagSupport {
 
+
+    // adding to git
     private byte[] usrImage;
 
     public void setUsrImage(byte[] usrImage) {

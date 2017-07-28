@@ -11,12 +11,13 @@ import java.io.IOException;
 public class ImageHolder extends SimpleTagSupport {
 
 
-    // adding to git
+    // adding to github
     private byte[] usrImage;
 
     public void setUsrImage(byte[] usrImage) {
         this.usrImage = usrImage;
     }
+
 
     @Override
     public void doTag() throws JspException, IOException {

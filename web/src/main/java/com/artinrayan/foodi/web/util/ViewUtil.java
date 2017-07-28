@@ -17,6 +17,7 @@ public class ViewUtil {
         LOGIN("login"),
         LOGOUT("logout"),
         USERLIST("userlist"),
+        USEREGISTRATIONSUCCESS("userRegistrationSuccess"),
         USERREGISTRATION("userRegistration");
 
 

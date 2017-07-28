@@ -149,7 +149,7 @@ public class UserController {
         userService.updateUser(user);
 
         model.addAttribute("success", "User " + user.getFirstName() + " "+ user.getLastName() + " updated successfully");
-        return "userRegistrationSuccess";
+        return ViewUtil.Views.USEREGISTRATIONSUCCESS.getViewName();
     }
 
 

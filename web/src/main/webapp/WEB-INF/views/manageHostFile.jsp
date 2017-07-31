@@ -23,29 +23,8 @@
 <div class="generic-container">
     <%@include file="authheader.jsp" %>
     ${success}
-    <%--<div>--%>
-    <%--<form:form method="POST" modelAttribute="newHostAccessImage" enctype="multipart/form-data">--%>
-    <%--File to upload: <form:input path="image" id="hostCountry" class="form-control input-sm" type="file" name="file">--%>
-    <%--<input type="submit" value="Upload"> Press here to upload the file!--%>
-    <%--</form:form>--%>
-    <%--</div>--%>
 
-    <%--<div align="center">--%>
-    <%--<h1>Spring MVC - Hibernate File Upload to Database Demo</h1>--%>
-    <%--<form method="post" action="/uploadFile" enctype="multipart/form-data">--%>
-    <%--<table border="0">--%>
-    <%--<tr>--%>
-    <%--<td>Pick file #1:</td>--%>
-    <%--<td><input type="file" name="fileUpload" size="50" /></td>--%>
-    <%--</tr>--%>
-    <%--<tr>--%>
-    <%--<td colspan="2" align="center"><input type="submit" value="Upload" /></td>--%>
-    <%--</tr>--%>
-    <%--</table>--%>
-    <%--</form>--%>
-    <%--</div>--%>
-
-    <form:form method="POST" enctype="multipart/form-data" modelAttribute="newHostAccessFile" class="form-horizontal">
+    <form:form method="POST" enctype="multipart/form-data" modelAttribute="hostFile" class="form-horizontal">
         <div class="row">
             <div class="form-group col-md-12">
                 <label class="col-md-3 control-lable" for="fileContent">File to upload</label>
@@ -69,42 +48,46 @@
                 </c:choose>
             </div>
         </div>
-        <div class="panel panel-default">
-            <!-- Default panel contents -->
-            <div class="panel-heading"><span class="lead">List of Hosts </span></div>
+    </form:form>
+
+    <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading"><span class="lead">List of Hosts </span></div>
+        <form:form method="POST" modelAttribute="hostFile" class="form-horizontal">
             <table class="table table-hover">
                 <thead>
-                <tr>
-                    <th>Host Name</th>
-                    <th>Country</th>
-                    <sec:authorize access="hasRole('ADMIN') or hasRole('DBA')">
-                        <th width="100"></th>
-                    </sec:authorize>
-                    <sec:authorize access="hasRole('ADMIN')">
-                        <th width="100"></th>
-                    </sec:authorize>
-
-                </tr>
-                </thead>
-                <tbody>
-                <c:forEach items="${hostAccessFiles}" var="accessFile">
                     <tr>
-                        <td>${accessFile.id}</td>
-                        <td>${accessFile.fileContent}</td>
-                        <td>${accessFile.creationDate}</td>
-                        <td><img src="/imageDisplay?id=${accessFile.id}"/></td>
+                        <th>Host Name</th>
+                        <th>Creation date</th>
+                        <th>File</th>
                         <sec:authorize access="hasRole('ADMIN') or hasRole('DBA')">
-                            <td><a href="<c:url value='/host/edit-host-access-${accessFile.id}' />" class="btn btn-success custom-width">edit</a></td>
+                            <th width="100"></th>
                         </sec:authorize>
                         <sec:authorize access="hasRole('ADMIN')">
-                            <td><a href="<c:url value='/host/delete-host-access-${accessFile.id}' />" class="btn btn-danger custom-width">delete</a></td>
+                            <th width="100"></th>
+                        </sec:authorize>
+
+                    </tr>
+                </thead>
+                <tbody>
+                <c:forEach items="${hostFiles}" var="hostFile">
+                    <tr>
+                        <td>${hostFile.host.hostName}</td>
+                        <td>${hostFile.creationDate}</td>
+                        <td><img width="150px" height="100px" src="/displayFileByFileId?id=${hostFile.id}"/></td>
+                        <sec:authorize access="hasRole('ADMIN') or hasRole('DBA')">
+                            <td><a href="<c:url value='/host/edit-host-file-${hostFile.id}' />" class="btn btn-success custom-width">edit</a></td>
+                        </sec:authorize>
+                        <sec:authorize access="hasRole('ADMIN')">
+                            <td><a href="<c:url value='/host/delete-host-file-${hostFile.id}' />" class="btn btn-danger custom-width">delete</a></td>
                         </sec:authorize>
                     </tr>
                 </c:forEach>
                 </tbody>
             </table>
-        </div>
-    </form:form>
+        </form:form>
+    </div>
+
 
     <%--<sec:authorize access="hasRole('ADMIN')">--%>
     <%--<div class="well">--%>

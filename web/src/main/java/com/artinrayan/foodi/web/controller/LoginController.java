@@ -14,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -105,7 +106,6 @@ public class LoginController {
             hosts = hostService.findAllHosts();
             modelMap.addAttribute("hostsStr", mapper.writeValueAsString(hosts));
             modelMap.addAttribute("hosts", hosts);
-            modelMap.addAttribute("host", hosts.get(0));
 
         } catch (BusinessException e) {
             e.printStackTrace();
@@ -113,6 +113,11 @@ public class LoginController {
             e.printStackTrace();
         }
         return ViewUtil.Views.HOSTMAP.getViewName();
+    }
+
+    @GetMapping("/error")
+    public String directToErrorPage(ModelMap model) {
+        return ViewUtil.Views.ERRORPAGE.getViewName();
     }
 
     /**

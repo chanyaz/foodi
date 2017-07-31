@@ -34,11 +34,107 @@
 
         <div class="row">
             <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="hostDetail">Host detail</label>
+                <label class="col-md-3 control-lable" for="hostDetail">Host Name</label>
                 <div class="col-md-7">
-                    <form:textarea type="text" path="hostDetail" id="hostDetail" class="form-control input-sm" />
+                    <form:textarea type="text" path="hostDetail" id="hostDetail" class="form-control input-sm"/>
                     <div class="has-error">
                         <form:errors path="hostDetail" class="help-inline"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label class="col-md-3 control-lable" for="hostCountry">hostCountry</label>
+                <div class="col-md-7">
+                    <form:input type="text" path="hostCountry" id="hostCountry" class="form-control input-sm" />
+                    <div class="has-error">
+                        <form:errors path="hostCountry" class="help-inline"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label class="col-md-3 control-lable" for="hostState">hostState</label>
+                <div class="col-md-7">
+                    <form:input type="text" path="hostState" id="hostState" class="form-control input-sm" />
+                    <div class="has-error">
+                        <form:errors path="hostState" class="help-inline"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label class="col-md-3 control-lable" for="hostCity">hostCity</label>
+                <div class="col-md-7">
+                    <form:input type="text" path="hostCity" id="hostCity" class="form-control input-sm" />
+                    <div class="has-error">
+                        <form:errors path="hostCity" class="help-inline"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label class="col-md-3 control-lable" for="hostAddress">hostAddress</label>
+                <div class="col-md-7">
+                    <form:input type="text" path="hostAddress" id="hostAddress" class="form-control input-sm" />
+                    <div class="has-error">
+                        <form:errors path="hostAddress" class="help-inline"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label class="col-md-3 control-lable" for="hostPhoneNumber">hostPhoneNumber</label>
+                <div class="col-md-7">
+                    <form:input type="text" path="hostPhoneNumber" id="hostPhoneNumber" class="form-control input-sm" />
+                    <div class="has-error">
+                        <form:errors path="hostPhoneNumber" class="help-inline"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label class="col-md-3 control-lable" for="hostWebSite">hostWebSite</label>
+                <div class="col-md-7">
+                    <form:input type="text" path="hostWebSite" id="hostWebSite" class="form-control input-sm" />
+                    <div class="has-error">
+                        <form:errors path="hostWebSite" class="help-inline"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label class="col-md-3 control-lable" for="latitude">latitude</label>
+                <div class="col-md-7">
+                    <form:input type="text" path="latitude" id="latitude" class="form-control input-sm" />
+                    <div class="has-error">
+                        <form:errors path="latitude" class="help-inline"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label class="col-md-3 control-lable" for="longitude">longitude</label>
+                <div class="col-md-7">
+                    <form:input type="text" path="longitude" id="longitude" class="form-control input-sm" />
+                    <div class="has-error">
+                        <form:errors path="longitude" class="help-inline"/>
                     </div>
                 </div>
             </div>

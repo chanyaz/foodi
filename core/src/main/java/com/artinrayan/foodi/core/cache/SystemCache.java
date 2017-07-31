@@ -1,6 +1,7 @@
 package com.artinrayan.foodi.core.cache;
 
 import com.artinrayan.foodi.core.UserService;
+import exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -29,6 +30,10 @@ public class SystemCache {
 
     private synchronized void initializeCache()
     {
-        userService.findAllUsers();
+        try {
+            userService.findAllUsers();
+        } catch (BusinessException e) {
+            e.printStackTrace();
+        }
     }
 }

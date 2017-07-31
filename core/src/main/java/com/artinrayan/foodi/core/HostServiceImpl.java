@@ -51,7 +51,7 @@ public class HostServiceImpl implements HostService {
     }
 
     @Override
-    public List<Host> findAllHosts() {
+    public List<Host> findAllHosts() throws BusinessException {
         return hostDao.findAllHosts();
     }
 
@@ -61,22 +61,17 @@ public class HostServiceImpl implements HostService {
     }
 
     @Override
-    public Host findHostByHostIdWithHostAccesses(int hostId) throws BusinessException {
-        return hostDao.findHostByHostIdWithHostAccesses(hostId);
-    }
-
-    @Override
-    public void saveHost(Host host) {
+    public void saveHost(Host host) throws BusinessException{
         hostDao.save(host);
     }
 
     @Override
-    public void updateHost(Host host) {
+    public void updateHost(Host host) throws BusinessException{
         hostDao.update(host);
     }
 
     @Override
-    public void deleteHost(int hostId) {
+    public void deleteHost(int hostId) throws BusinessException{
         hostDao.delete(hostId);
     }
 }

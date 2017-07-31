@@ -60,7 +60,13 @@ public class HostDaoImpl extends AbstractDao<Integer, Host> implements HostDao {
     public Host findByHostId(int hostId) throws HostDaoException {
         Query query =  getSession().getNamedQuery(Host.GET_HOST_BY_HOST_ID);
         query.setInteger("hostId", hostId);
-        return (Host) query.uniqueResult();
+        Host host = (Host) query.uniqueResult();
+
+        if (host != null) {
+            Hibernate.initialize(host.getHostFiles());
+        }
+
+        return host;
     }
 
 
@@ -83,16 +89,16 @@ public class HostDaoImpl extends AbstractDao<Integer, Host> implements HostDao {
         return Host;
     }
 
-    @Override
-    public Host findHostByHostIdWithHostAccesses(int hostId) {
-        Query query = getSession().getNamedQuery(Host.GET_HOST_BY_ID).setInteger("id", hostId);
-        query.setInteger("id", hostId);
-        Host host = (Host) query.list().get(0);
-        if (host != null) {
-            Hibernate.initialize(host.getHostAccesses());
-        }
-        return host;
-    }
+//    @Override
+//    public Host findHostByHostIdWithHostAccesses(int hostId) {
+//        Query query = getSession().getNamedQuery(Host.GET_HOST_BY_ID).setInteger("id", hostId);
+//        query.setInteger("id", hostId);
+//        Host host = (Host) query.list().get(0);
+//        if (host != null) {
+//            Hibernate.initialize(host.getHostAccesses());
+//        }
+//        return host;
+//    }
 
     @Override
     public void save(Host host) {

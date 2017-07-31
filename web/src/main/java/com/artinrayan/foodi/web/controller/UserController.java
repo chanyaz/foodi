@@ -5,6 +5,7 @@ import com.artinrayan.foodi.core.UserService;
 import com.artinrayan.foodi.model.User;
 import com.artinrayan.foodi.model.UserProfile;
 import com.artinrayan.foodi.web.util.ViewUtil;
+import exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -43,7 +44,12 @@ public class UserController {
     @RequestMapping(value = { "/**", "/userList" }, method = RequestMethod.GET)
     public String listUsers(ModelMap model) {
 
-        List<User> users = userService.findAllUsers();
+        List<User> users = null;
+        try {
+            users = userService.findAllUsers();
+        } catch (BusinessException e) {
+            e.printStackTrace();
+        }
         model.addAttribute("users", users);
         return ViewUtil.Views.USERLIST.getViewName();
     }
@@ -83,7 +89,7 @@ public class UserController {
      */
     @RequestMapping(value = { "/newUser" }, method = RequestMethod.POST)
     public String saveUser(@Valid User user, BindingResult result,
-                           ModelMap model) {
+                           ModelMap model) throws BusinessException {
 
         if (result.hasErrors()) {
             return "userRegistration";
@@ -118,7 +124,7 @@ public class UserController {
      * This method will provide the medium to update an existing user.
      */
     @RequestMapping(value = { "/edit-user-{username}" }, method = RequestMethod.GET)
-    public String editUser(@PathVariable String username, ModelMap model, HttpServletRequest request) {
+    public String editUser(@PathVariable String username, ModelMap model, HttpServletRequest request) throws BusinessException {
         User user = userService.findUserAuthenticateInfoByUsername(username);
         model.addAttribute("user", user);
         model.addAttribute("edit", true);
@@ -132,7 +138,7 @@ public class UserController {
     @RequestMapping(value = { "/edit-user-{username}" }, method = RequestMethod.POST)
     public String updateUser(@Valid User user, BindingResult result,
                              ModelMap model, @PathVariable String username, HttpServletRequest request,
-                             @RequestParam(value="id", required=false) String userId) {
+                             @RequestParam(value="id", required=false) String userId) throws BusinessException {
 
         if (result.hasErrors()) {
             return ViewUtil.Views.USERREGISTRATION.getViewName();
@@ -157,7 +163,7 @@ public class UserController {
      * This method will delete an user by it's username value.
      */
     @RequestMapping(value = { "/delete-user-{username}" }, method = RequestMethod.GET)
-    public String deleteUser(@PathVariable String username) {
+    public String deleteUser(@PathVariable String username) throws BusinessException {
         userService.deleteUserBySSO(username);
         return "redirect:/" + ViewUtil.Views.USERLIST.getViewName();
     }

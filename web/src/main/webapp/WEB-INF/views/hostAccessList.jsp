@@ -179,7 +179,7 @@
                         <td><a href="<c:url value='/host/edit-host-access-${hostAccess.hostAccessId}' />" class="btn btn-success custom-width">edit</a></td>
                     </sec:authorize>
                     <sec:authorize access="hasRole('ADMIN') or hasRole('DBA')">
-                        <td><a href="<c:url value='/host/manage-host-access-file-${hostAccess.hostAccessId}' />" class="btn btn-success custom-width">images</a></td>
+                        <td><a href="<c:url value='/host/manage-host-file-${hostAccess.hostAccessId}' />" class="btn btn-success custom-width">images</a></td>
                     </sec:authorize>
                     <sec:authorize access="hasRole('ADMIN')">
                         <td><a href="<c:url value='/host/delete-host-access-${hostAccess.hostAccessId}-${hostAccess.host.hostId}' />" class="btn btn-danger custom-width">delete</a></td>

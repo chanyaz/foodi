@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService {
 	@Autowired
     private PasswordEncoder passwordEncoder;
 	
-	public User findById(int id) {
+	public User findByUserId(int id) {
 		return dao.findById(id);
 	}
 

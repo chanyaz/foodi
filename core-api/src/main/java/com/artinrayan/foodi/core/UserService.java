@@ -8,22 +8,22 @@ import java.util.List;
 
 public interface UserService {
 	
-	User findById(int id);
+	User findByUserId(int id) throws BusinessException;
 	
-	User findUserAuthenticateInfoByUsername(String username);
+	User findUserAuthenticateInfoByUsername(String username)throws BusinessException;
 
 	public User loadUserByUsername(String username) throws BusinessException;
 
-	User findUserByUsername(String username);
+	User findUserByUsername(String username) throws BusinessException;
 
-	void saveUser(User user);
+	void saveUser(User user) throws BusinessException;
 	
-	void updateUser(User user);
+	void updateUser(User user) throws BusinessException;
 	
-	void deleteUserBySSO(String sso);
+	void deleteUserBySSO(String sso) throws BusinessException;
 
-	List<User> findAllUsers(); 
+	List<User> findAllUsers() throws BusinessException;
 	
-	boolean isUserUnique(Integer id, String sso);
+	boolean isUserUnique(Integer id, String sso) throws BusinessException;
 
 }

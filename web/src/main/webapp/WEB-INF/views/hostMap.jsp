@@ -20,7 +20,7 @@
     <link href="<c:url value='/static/css/app.css' />" rel="stylesheet"/>
     <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyD9kOrSAog9xPLswbLnDaPB_djHHqF0EK8"></script>
     <link href="<c:url value='/static/css/mapStyle.css' />" rel="stylesheet"/>
-    <script src="<c:url value="/static/js/map.js"/>"></script>
+    <script src="<c:url value="/static/js/mainMap.js"/>"></script>
     <script src="<c:url value="/static/js/lib/jquery-3.2.1.min.js"/>"></script>
 
     <script>
@@ -30,7 +30,7 @@
             $.ajax({
                 type : "GET",
                 contentType : "application/json",
-                url : "/hostAccess/" + obj.hostAccessId,
+                url : "/hostDetail/" + obj.hostId,
 //                data : JSON.stringify(data),
                 dataType : 'json',
                 timeout : 100000,
@@ -53,6 +53,30 @@
                 }
             });
         }
+
+        $("#hostName").click(function(){
+            $.ajax({
+                url : 'start',
+                method : 'GET',
+                async : false,
+                complete : function(data) {
+                    console.log(data.responseText);
+                }
+            });
+
+        });
+
+        function test(id)
+        {
+            $.ajax({
+                url : '/host/hostDetail/' + id,
+                method : 'GET',
+                async : false,
+                complete : function(data) {
+                    console.log(data.responseText);
+                }
+            });
+        }
     </script>
 </head>
 
@@ -62,26 +86,27 @@
 
     <%@include file="authheader.jsp" %>
     <div class="panel panel-default">
-        <!-- Default panel contents -->
-        <div class="panel-heading"><span class="lead">Map</span></div>
         <form:hidden id="hosts" path="hosts" value="${hostsStr}" />
             <div id="containerDiv">
                 <table class="table table-hover" width="100%">
                     <tr>
                         <td width="70%">
-                            <div id="map-canvas"/>
+                            <div id="mainMap-canvas"/>
                         </td>
                         <td width="25%">
-                            <table class="table table-hover">
-                                <tbody>
-                                <c:forEach items="${hosts}" var="hostObj">
-                                    <tr>
-                                        <td>${hostObj.hostName}</td>
-                                        <td>${hostObj.hostDetail}</td>
-                                    </tr>
-                                </c:forEach>
-                                </tbody>
-                            </table>
+                            <div style="height: 600px; overflow-y:scroll;">
+                                <table class="table table-hover">
+                                    <tbody>
+                                        <c:forEach items="${hosts}" var="host">
+                                            <tr>
+                                                <td><img width="150px" height="100px" src="/displayFileByHostId?id=${host.hostId}"/></td>
+                                                <td><a target="_blank" href="<c:url value='/host/hostDetail-${host.hostId}' />">${host.hostName}</a></td>
+                                                <td>${host.hostDetail}</td>
+                                            </tr>
+                                        </c:forEach>
+                                    </tbody>
+                                </table>
+                            </div>
                         </td>
                     </tr>
                 </table>

@@ -19,7 +19,7 @@ public interface HostDao {
 
     Host findHostByHostIdAndUserId(int hostId, User user);
 
-    Host findHostByHostIdWithHostAccesses(int hostId);
+//    Host findHostByHostIdWithHostAccesses(int hostId);
 
     void save(Host host);
 

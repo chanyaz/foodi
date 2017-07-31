@@ -1,6 +1,8 @@
 package com.artinrayan.foodi.web.rest;
 
 import com.artinrayan.foodi.core.HostAccessService;
+import com.artinrayan.foodi.core.HostService;
+import com.artinrayan.foodi.model.Host;
 import com.artinrayan.foodi.model.HostAccess;
 import exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,9 @@ public class HostAccessRestService {
     @Autowired
     HostAccessService hostAccessService;
 
+    @Autowired
+    HostService hostService;
+
     //-------------------Retrieve All Hosts--------------------------------------------------------
 
     @RequestMapping(value = "/hostAccess", method = RequestMethod.GET)
@@ -44,21 +49,20 @@ public class HostAccessRestService {
 
     //-------------------Retrieve Single Host--------------------------------------------------------
 
-    @RequestMapping(value = "/hostAccess/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<HostAccess> getUser(@PathVariable("id") int id, ModelMap model) {
+    @RequestMapping(value = "/restHost/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Host> getUser(@PathVariable("id") int id) {
         System.out.println("Fetching User with id " + id);
-        HostAccess hostAccess = null;
+        Host host = null;
         try {
-            hostAccess = hostAccessService.findHostAccessById(id);
-            if (hostAccess == null) {
+            host = hostService.findHostByHostId(id);
+            if (host == null) {
                 System.out.println("User with id " + id + " not found");
-                return new ResponseEntity<HostAccess>(HttpStatus.NOT_FOUND);
+                return new ResponseEntity<Host>(HttpStatus.NOT_FOUND);
             }
         } catch (BusinessException e) {
             e.printStackTrace();
         }
 
-        model.addAttribute("hostAccess", hostAccess);
-        return new ResponseEntity<HostAccess>(hostAccess, HttpStatus.OK);
+        return new ResponseEntity<Host>(host, HttpStatus.OK);
     }
 }

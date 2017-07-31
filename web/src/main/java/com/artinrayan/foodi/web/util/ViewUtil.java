@@ -10,7 +10,7 @@ public class ViewUtil {
         HOSTSUCCESS("hostRegistrationSuccess"),
         HOSTLIST("hostList"),
         HOSTACCESSLIST("hostAccessList"),
-        HOSTACCESSIMAGEMANAGEMENT("manageHostAccessImage"),
+        MANAGEHOSTFILE("manageHostFile"),
         HOSTREGISTRATION("hostRegistration"),
         ACCESSDENIED("accessDenied"),
         HOSTMAP("hostMap"),
@@ -18,7 +18,9 @@ public class ViewUtil {
         LOGOUT("logout"),
         USERLIST("userlist"),
         USEREGISTRATIONSUCCESS("userRegistrationSuccess"),
-        USERREGISTRATION("userRegistration");
+        USERREGISTRATION("userRegistration"),
+        HOST("host"),
+        ERRORPAGE("error");
 
 
 

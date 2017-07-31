@@ -12,18 +12,19 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
  * Created by asus on 5/25/2017.
  */
 @Entity
-@Table(name = "Host")
+@Table(name = "Host", uniqueConstraints =
+        { @UniqueConstraint(columnNames =
+                { "Latitude", "Longitude" }) })
 @NamedQueries
     (
         {
-            @NamedQuery(name=Host.GET_HOST_BY_ID, query=Host.GET_HOST_BY_ID_QUERY),
+//            @NamedQuery(name=Host.GET_HOST_BY_ID, query=Host.GET_HOST_BY_ID_QUERY),
             @NamedQuery(name=Host.GET_HOST_BY_USER_ID, query=Host.GET_HOST_BY_USER_ID_QUERY),
             @NamedQuery(name=Host.GET_HOST_BY_HOST_ID, query=Host.GET_HOST_BY_HOST_ID_QUERY),
             @NamedQuery(name=Host.UPDATE_HOST_BY_ID, query=Host.UPDATE_HOST_BY_ID_QUERY)
@@ -32,8 +33,8 @@ import java.util.Set;
 
 public class Host implements Serializable{
 
-    static final String GET_HOST_BY_ID_QUERY = "select DISTINCT(h) from Host h left join fetch h.hostAccesses where h.hostId = :id";
-    public static final String GET_HOST_BY_ID = "GET_HOST_BY_ID";
+//    static final String GET_HOST_BY_ID_QUERY = "select DISTINCT(h) from Host h left join fetch h.hostAccesses where h.hostId = :id";
+//    public static final String GET_HOST_BY_ID = "GET_HOST_BY_ID";
 
     static final String GET_HOST_BY_USER_ID_QUERY = "select DISTINCT(h) from Host h left join fetch h.user user WHERE user.id = :userId ";
     public static final String GET_HOST_BY_USER_ID = "GET_HOST_BY_USER_ID";
@@ -71,10 +72,45 @@ public class Host implements Serializable{
     @Column(name = "Enabled", nullable=false)
     private Boolean enabled;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "host", orphanRemoval = true)
-    @Fetch(FetchMode.JOIN)
+    @NotEmpty
+    @Column(name = "HostCountry", nullable=false)
+    private String hostCountry;
+
+    @NotEmpty
+    @Column(name = "HostState", nullable=false)
+    private String hostState;
+
+    @NotEmpty
+    @Column(name = "HostCity", nullable=false)
+    private String hostCity;
+
+    @NotEmpty
+    @Column(name = "HostAddress", nullable=false)
+    private String hostAddress;
+
+    @Column(name = "HostPhoneNumber")
+    private String hostPhoneNumber;
+
+    @Column(name = "HostWebSite")
+    private String hostWebSite;
+
+    @NotEmpty
+    @Column(name = "Latitude", nullable=false)
+    private String latitude;
+
+    @NotEmpty
+    @Column(name = "Longitude", nullable=false)
+    private String longitude;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "host", cascade = CascadeType.REMOVE)
+    @Fetch(FetchMode.SELECT)
+    @JsonIgnore
+    private Set<HostFile> hostFiles;
+
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "host", orphanRemoval = true)
+//    @Fetch(FetchMode.JOIN)
 //    @JsonIgnore
-    private Set<HostAccess> hostAccesses = new HashSet<HostAccess>();
+//    private Set<HostAccess> hostAccesses = new HashSet<HostAccess>();
 
 
     public Integer getHostId() {
@@ -117,20 +153,84 @@ public class Host implements Serializable{
         this.enabled = enabled;
     }
 
-    public Set<HostAccess> getHostAccesses() {
-        return hostAccesses;
-    }
-
-    public void setHostAccesses(Set<HostAccess> hostAccesses) {
-        this.hostAccesses = hostAccesses;
-    }
-
     public User getUser() {
         return user;
     }
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getHostCountry() {
+        return hostCountry;
+    }
+
+    public void setHostCountry(String hostCountry) {
+        this.hostCountry = hostCountry;
+    }
+
+    public String getHostState() {
+        return hostState;
+    }
+
+    public void setHostState(String hostState) {
+        this.hostState = hostState;
+    }
+
+    public String getHostCity() {
+        return hostCity;
+    }
+
+    public void setHostCity(String hostCity) {
+        this.hostCity = hostCity;
+    }
+
+    public String getHostAddress() {
+        return hostAddress;
+    }
+
+    public void setHostAddress(String hostAddress) {
+        this.hostAddress = hostAddress;
+    }
+
+    public String getHostPhoneNumber() {
+        return hostPhoneNumber;
+    }
+
+    public void setHostPhoneNumber(String hostPhoneNumber) {
+        this.hostPhoneNumber = hostPhoneNumber;
+    }
+
+    public String getHostWebSite() {
+        return hostWebSite;
+    }
+
+    public void setHostWebSite(String hostWebSite) {
+        this.hostWebSite = hostWebSite;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
+    public Set<HostFile> getHostFiles() {
+        return hostFiles;
+    }
+
+    public void setHostFiles(Set<HostFile> hostFiles) {
+        this.hostFiles = hostFiles;
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.artinrayan.foodi.web.controller;
 
-import com.artinrayan.foodi.core.HostAccessFileService;
-import com.artinrayan.foodi.model.HostAccessFile;
+import com.artinrayan.foodi.core.HostFileService;
+import com.artinrayan.foodi.model.HostFile;
 import com.artinrayan.foodi.web.util.UserUtil;
 import com.artinrayan.foodi.model.Host;
 import com.artinrayan.foodi.model.HostAccess;
@@ -46,7 +46,7 @@ public class HostController {
 	MessageSource messageSource;
 
 	@Autowired
-	HostAccessFileService hostAccessFileService;
+	HostFileService hostFileService;
 
 
 
@@ -104,7 +104,7 @@ public class HostController {
 //		}
 
 		try {
-			User user = userService.findUserByUsername(UserUtil.getPrincipal());
+			User user = userService.findByUserId(UserUtil.getCurrentUser().getUserId());
 			host.setUser(user);
 			host.setCreationDate(new Date());
 			host.setEnabled(true);
@@ -166,21 +166,21 @@ public class HostController {
 			User user = userService.findUserByUsername(UserUtil.getPrincipal());
 			Host host = hostService.findHostByHostIdAndUserId(hostId, user);
 			hostAccess.setHost(host);
-			hostAccess.setHostCountry(hostAccess.getHostCountry());
-			hostAccess.setHostState(hostAccess.getHostState());
-			hostAccess.setHostCity(hostAccess.getHostCity());
-			hostAccess.setHostAddress(hostAccess.getHostAddress());
-			hostAccess.setHostPhoneNumber(hostAccess.getHostPhoneNumber());
-			hostAccess.setLatitude(hostAccess.getLatitude());
-			hostAccess.setLongitude(hostAccess.getLongitude());
-			hostAccess.setCreationDate(new Date());
+//			hostAccess.setHostCountry(hostAccess.getHostCountry());
+//			hostAccess.setHostState(hostAccess.getHostState());
+//			hostAccess.setHostCity(hostAccess.getHostCity());
+//			hostAccess.setHostAddress(hostAccess.getHostAddress());
+//			hostAccess.setHostPhoneNumber(hostAccess.getHostPhoneNumber());
+//			hostAccess.setLatitude(hostAccess.getLatitude());
+//			hostAccess.setLongitude(hostAccess.getLongitude());
+//			hostAccess.setCreationDate(new Date());
 			hostAccessService.saveHostAccess(hostAccess);
 
 			model.addAttribute("success", "Host access registered successfully");
 			HostAccess newHostAccess = new HostAccess();
 			model.addAttribute("newHostAccess", newHostAccess);
 			model.addAttribute("hostId", hostId);
-			model.addAttribute("hostAccessList", host.getHostAccesses());
+//			model.addAttribute("hostAccessList", host.getHostAccesses());
 			model.addAttribute("edit", false);
 		}
 		catch (BusinessException e)
@@ -237,7 +237,7 @@ public class HostController {
 
 		User user = userService.findUserByUsername(UserUtil.getPrincipal());
 		Host host = hostService.findHostByHostIdAndUserId(hostId, user);
-		model.addAttribute("hostAccessList", host.getHostAccesses());
+//		model.addAttribute("hostAccessList", host.getHostAccesses());
 		return ViewUtil.Views.HOSTACCESSLIST.getViewName();
 	}
 
@@ -290,39 +290,38 @@ public class HostController {
 
 	/**
 	 *
-	 * @param hostAccessId
+	 * @param hostId
 	 * @param model
 	 * @return
 	 * @throws BusinessException
 	 */
-	@RequestMapping(value = { "/manage-host-access-file-{hostAccessId}" }, method = RequestMethod.GET)
-	public String loadHostAccessImage(@PathVariable int hostAccessId, ModelMap model) throws BusinessException {
-		HostAccess hostAccess = hostAccessService.findHostAccessById(hostAccessId);
-		HostAccessFile hostAccessFile = new HostAccessFile();
-		hostAccessFile.setHostAccess(hostAccess);
-		model.addAttribute("newHostAccessFile", hostAccessFile);
+	@GetMapping("/manage-host-file-{hostId}")
+	public String loadHostAccessImage(@PathVariable int hostId, ModelMap model) throws BusinessException {
+		Host host = hostService.findHostByHostId(hostId);
+		HostFile hostFile = new HostFile();
+		hostFile.setHost(host);
+		model.addAttribute("hostFile", hostFile);
 
-		model.addAttribute("hostAccessFiles", hostAccess.getHostAccessFiles());
-		return ViewUtil.Views.HOSTACCESSIMAGEMANAGEMENT.getViewName();
+		model.addAttribute("hostFiles", host.getHostFiles());
+		return ViewUtil.Views.MANAGEHOSTFILE.getViewName();
 	}
 
 	/**
 	 *
-	 * @param hostAccessFile
+	 * @param hostFile
 	 * @param result
-	 * @param hostAccessId
+	 * @param hostId
 	 * @param model
 	 * @return
 	 * @throws BusinessException
 	 */
-	@PostMapping("/manage-host-access-file-{hostAccessId}")
-//	@RequestMapping(value = { "/manage-host-access-file-{hostAccessId}" }, method = RequestMethod.POST)
-	public String saveImage(@Valid HostAccessFile hostAccessFile, BindingResult result,
+	@PostMapping("/manage-host-file-{hostId}")
+	public String saveImage(@Valid HostFile hostFile, BindingResult result,
 							@RequestParam("fileContent") MultipartFile fileContent,
-							@PathVariable int hostAccessId, ModelMap model) throws BusinessException {
+							@PathVariable int hostId, ModelMap model) throws BusinessException {
 
 //		if (result.hasErrors()) {
-//			return ViewUtil.Views.HOSTACCESSIMAGEMANAGEMENT.getViewName();
+//			return ViewUtil.Views.HOSTLIST.getViewName();
 //		}
 
 		//save image into database
@@ -342,16 +341,14 @@ public class HostController {
 //		avatar.setImage(bFile);
 
 		try {
-			HostAccess currentAccess = hostAccessService.findHostAccessById(hostAccessId);
-			hostAccessFile.setHostAccess(currentAccess);
-			hostAccessFile.setFileContent(fileContent.getBytes());
-			hostAccessFile.setCreationDate(new Date());
-			hostAccessFile.setFileType(
+			Host host = hostService.findHostByHostId(hostId);
+			hostFile.setHost(host);
+			hostFile.setFileContent(fileContent.getBytes());
+			hostFile.setCreationDate(new Date());
+			hostFile.setFileType(
 					fileContent.getOriginalFilename().substring(fileContent.getOriginalFilename().lastIndexOf(".") + 1));
 
-			hostAccessFileService.saveHostAccessImage(hostAccessFile);
-
-			model.addAttribute("hostAccessFiles", currentAccess.getHostAccessFiles());
+			hostFileService.saveHostFile(hostFile);
 
 		}
 		catch (BusinessException e)
@@ -363,8 +360,29 @@ public class HostController {
 			e.printStackTrace();
 		}
 
-		model.addAttribute("success", "HostAccessFile registered successfully");
+		model.addAttribute("success", "HostFile registered successfully");
 		return ViewUtil.Views.HOSTSUCCESS.getViewName();
+	}
+
+	/**
+	 * This method will provide the medium to add a new user.
+	 */
+	@RequestMapping(value = { "/hostDetail-{hostId}" }, method = RequestMethod.GET)
+	public String hostDetail(@PathVariable int hostId, ModelMap model) throws BusinessException {
+		User user = userService.findByUserId(UserUtil.getCurrentUser().getUserId());
+		Host host = hostService.findHostByHostIdAndUserId(hostId, user);
+		model.addAttribute("host", host);
+		model.addAttribute("edit", false);
+		return ViewUtil.Views.HOST.getViewName();
+	}
+
+	/**
+	 * This method will delete an user by it's username value.
+	 */
+	@RequestMapping(value = { "/delete-host-file-{hostFileId}" }, method = RequestMethod.GET)
+	public String deleteHostFile(@PathVariable int hostFileId, Model model) throws BusinessException {
+		hostFileService.deleteHostFileById(hostFileId);
+		return "redirect:/host/" + ViewUtil.Views.HOSTLIST.getViewName();
 	}
 
 	@ExceptionHandler(BusinessException.class)

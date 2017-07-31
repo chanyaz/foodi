@@ -1,7 +1,9 @@
 package com.artinrayan.foodi.web.controller;
 
-import com.artinrayan.foodi.core.HostAccessFileService;
-import com.artinrayan.foodi.model.HostAccessFile;
+import com.artinrayan.foodi.core.HostFileService;
+import com.artinrayan.foodi.core.HostService;
+import com.artinrayan.foodi.model.Host;
+import com.artinrayan.foodi.model.HostFile;
 import exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,24 +22,56 @@ import java.io.IOException;
 public class FileController {
 
     @Autowired
-    HostAccessFileService hostAccessFileService;
+    HostFileService hostFileService;
 
-    @RequestMapping(value = "/imageDisplay", method = RequestMethod.GET)
-    public void showImage(@RequestParam("id") Integer itemId, HttpServletResponse response, HttpServletRequest request)
+    @Autowired
+    HostService hostService;
+
+    /**
+     *
+     * @param fileId
+     * @param response
+     * @param request
+     * @throws IOException
+     */
+    @RequestMapping(value = "/displayFileByFileId", method = RequestMethod.GET)
+    public void displayFileByFileId(@RequestParam("id") Integer fileId, HttpServletResponse response, HttpServletRequest request)
             throws IOException {
 
         try {
-            HostAccessFile hostAccessFile = hostAccessFileService.findAccessFileByHostAccessId(itemId);
+            HostFile hostFile = hostFileService.findHostFileByHostId(fileId);
 
             response.setContentType("image/jpeg, image/jpg, image/png, image/gif");
-            response.getOutputStream().write(hostAccessFile.getFileContent());
+            response.getOutputStream().write(hostFile.getFileContent());
 
 
             response.getOutputStream().close();
         } catch (BusinessException e) {
             e.printStackTrace();
         }
+    }
 
+    /**
+     *
+     * @param hostId
+     * @param response
+     * @param request
+     * @throws IOException
+     */
+    @RequestMapping(value = "/displayFileByHostId", method = RequestMethod.GET)
+    public void displayFileByHostFileId(@RequestParam("id") Integer hostId, HttpServletResponse response, HttpServletRequest request)
+            throws IOException {
 
+        try {
+            Host host = hostService.findHostByHostId(hostId);
+
+            response.setContentType("image/jpeg, image/jpg, image/png, image/gif");
+            HostFile hostFile = (HostFile) host.getHostFiles().toArray()[0];
+            response.getOutputStream().write(hostFile.getFileContent());
+
+            response.getOutputStream().close();
+        } catch (BusinessException e) {
+            e.printStackTrace();
+        }
     }
 }

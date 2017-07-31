@@ -19,8 +19,6 @@ public interface HostService {
 
     Host findHostByHostIdAndUserId(int hostId, User user) throws BusinessException;
 
-    Host findHostByHostIdWithHostAccesses(int hostId) throws BusinessException;
-
     void saveHost(Host host) throws BusinessException;
 
     void updateHost(Host host) throws BusinessException;

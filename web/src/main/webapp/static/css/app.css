@@ -37,7 +37,6 @@ body{
 .generic-container {
 	position:relative;
 	width:97%;
-	margin-left: 20px;
 	margin-top: 20px;
 	margin-bottom: 20px;
 	padding: 20px;
@@ -85,4 +84,10 @@ body, #mainWrapper, .form-control{
 
 .authbar{
 	margin-bottom:15px;
+}
+
+.menu-bar {
+	padding-right: 5px;
+	padding-left: 5px;
+	font-weight: bold;
 }

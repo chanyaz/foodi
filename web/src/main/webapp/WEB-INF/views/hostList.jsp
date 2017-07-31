@@ -49,7 +49,7 @@
                     <td>${host.creationDate}</td>
                     <td>${host.enabled}</td>
                     <sec:authorize access="hasRole('ADMIN') or hasRole('DBA')">
-                        <td><a href="<c:url value='/host/manage-host-accesses-${host.hostId}' />" class="btn btn-success custom-width">Accesses</a></td>
+                        <td><a href="<c:url value='/host/manage-host-file-${host.hostId}' />" class="btn btn-success custom-width">images</a></td>
                     </sec:authorize>
                     <sec:authorize access="hasRole('ADMIN') or hasRole('DBA')">
                         <td><a href="<c:url value='/host/edit-host-${host.hostId}' />" class="btn btn-success custom-width">edit</a></td>

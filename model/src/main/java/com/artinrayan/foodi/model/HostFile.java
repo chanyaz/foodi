@@ -1,6 +1,7 @@
 package com.artinrayan.foodi.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -11,8 +12,8 @@ import java.util.Date;
  * Created by asus on 7/18/2017.
  */
 @Entity
-@Table(name = "HostAccessFile")
-public class HostAccessFile implements Serializable{
+@Table(name = "HostFile")
+public class HostFile implements Serializable{
 
     @Id
     @Column(name = "FileId")
@@ -20,9 +21,9 @@ public class HostAccessFile implements Serializable{
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "AccessId", nullable = false)
+    @JoinColumn(name = "HostId", nullable = false)
     @JsonIgnore
-    private HostAccess hostAccess;
+    private Host host;
 
     @Column(name = "FileContent")
     private byte[] fileContent;
@@ -46,12 +47,12 @@ public class HostAccessFile implements Serializable{
         this.id = id;
     }
 
-    public HostAccess getHostAccess() {
-        return hostAccess;
+    public Host getHost() {
+        return host;
     }
 
-    public void setHostAccess(HostAccess hostAccess) {
-        this.hostAccess = hostAccess;
+    public void setHost(Host host) {
+        this.host = host;
     }
 
     public byte[] getFileContent() {
@@ -88,10 +89,8 @@ public class HostAccessFile implements Serializable{
 
     @Override
     public String toString() {
-        return "HostAccessFile{" +
+        return "HostFile{" +
                 "id=" + id +
-                ", fileContent=" + Arrays.toString(fileContent) +
-                ", thumbnail=" + Arrays.toString(thumbnail) +
                 ", creationDate=" + creationDate +
                 ", fileType='" + fileType + '\'' +
                 '}';
@@ -100,15 +99,15 @@ public class HostAccessFile implements Serializable{
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof HostAccessFile)) return false;
+        if (!(o instanceof HostFile)) return false;
 
-        HostAccessFile that = (HostAccessFile) o;
+        HostFile hostFile = (HostFile) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (!Arrays.equals(fileContent, that.fileContent)) return false;
-        if (!Arrays.equals(thumbnail, that.thumbnail)) return false;
-        if (creationDate != null ? !creationDate.equals(that.creationDate) : that.creationDate != null) return false;
-        return !(fileType != null ? !fileType.equals(that.fileType) : that.fileType != null);
+        if (id != null ? !id.equals(hostFile.id) : hostFile.id != null) return false;
+        if (!Arrays.equals(fileContent, hostFile.fileContent)) return false;
+        if (creationDate != null ? !creationDate.equals(hostFile.creationDate) : hostFile.creationDate != null)
+            return false;
+        return !(fileType != null ? !fileType.equals(hostFile.fileType) : hostFile.fileType != null);
 
     }
 
@@ -116,7 +115,6 @@ public class HostAccessFile implements Serializable{
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + Arrays.hashCode(fileContent);
-        result = 31 * result + Arrays.hashCode(thumbnail);
         result = 31 * result + (creationDate != null ? creationDate.hashCode() : 0);
         result = 31 * result + (fileType != null ? fileType.hashCode() : 0);
         return result;

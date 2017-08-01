@@ -9,7 +9,7 @@ var infoWindow;
 
 
 function initialize() {
-    var mapCanvas = document.getElementById("map-canvas");
+    var mapCanvas = document.getElementById("mainMap-canvas");
     var myCenter=new google.maps.LatLng(43.66386657178007,-79.39064025628909);
     var mapOptions = {center: myCenter, zoom: 10};
     map = new google.maps.Map(mapCanvas, mapOptions);
@@ -42,8 +42,6 @@ function displayMarkers(){
         var hostObj = hostObjects[i];
 
         var latlng = new google.maps.LatLng(hostObj.latitude, hostObj.longitude);
-        var name = hostObj.hostName;
-        var hostId = hostObj.hostId;
 
         createMarker(latlng, hostObj);
 
@@ -113,16 +111,18 @@ function jumpToLocation(hostId, latitude, longitude)
                 position: latlng,
             });
 
+            var link = "/host/hostDetail-" + hostObj.hostId;
             //google.maps.event.addListener(marker, 'click', function() {
 
             // Creating the content to be inserted in the infowindow
             var iwContent = '<div id="iw_container">' +
                 '<div class="iw_title">Name: ' + hostObj.hostName + '</div>' +
                 '<div class="iw_content">Address: ' + hostObj.hostAddress + '<br />Telephone: ' +
-                hostObj.hostPhoneNumber + '<br />' +
-                hostObj.hostId + '</div></div>';
+                hostObj.hostPhoneNumber + '<br /><br />' +
+                '<a id="linkUrl" target="_blank" href="' + link + '"/>View</a>' + '</div></div>';
 
-            infoWindow = new google.maps.InfoWindow();
+            //document.getElementById('linkUrl').href = link;
+
 
             infoWindow.setContent(iwContent);
 

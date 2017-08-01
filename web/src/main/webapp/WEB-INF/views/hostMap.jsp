@@ -87,31 +87,32 @@
     <%@include file="authheader.jsp" %>
     <div class="panel panel-default">
         <form:hidden id="hosts" path="hosts" value="${hostsStr}" />
-            <div id="containerDiv">
-                <table class="table table-hover" width="100%">
-                    <tr>
-                        <td width="70%">
-                            <div id="mainMap-canvas"/>
-                        </td>
-                        <td width="25%">
-                            <div style="height: 600px; overflow-y:scroll;">
-                                <table class="table table-hover">
-                                    <tbody>
-                                        <c:forEach items="${hosts}" var="host">
-                                            <tr>
-                                                <td><img width="150px" height="100px" src="/displayFileByHostId?id=${host.hostId}"/></td>
-                                                <td><a target="_blank" href="<c:url value='/host/hostDetail-${host.hostId}' />">${host.hostName}</a></td>
-                                                <td>${host.hostDetail}</td>
-                                            </tr>
-                                        </c:forEach>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-
+        <div id="containerDiv">
+            <table class="table table-hover" width="100%">
+                <tr>
+                    <td width="70%">
+                        <div id="mainMap-canvas"/>
+                    </td>
+                    <td width="25%">
+                        <div style="height: 600px; overflow-y:scroll;">
+                            <table class="table table-hover">
+                                <tbody>
+                                    <c:forEach items="${hosts}" var="host">
+                                        <tr>
+                                            <td><img width="150px" height="100px" src="/displayFileByHostId?id=${host.hostId}"/></td>
+                                            <td><a href="#" onclick="jumpToLocation(${host.hostId},
+                                                ${host.latitude}, ${host.longitude})">${host.hostName}</a></td>
+                                            <%--<td><a target="_blank" href="<c:url value='/host/hostDetail-${host.hostId}' />">${host.hostName}</a></td></td>--%>
+                                            <td>${host.hostCity}</td>
+                                        </tr>
+                                    </c:forEach>
+                                </tbody>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
 </div>
 </body>

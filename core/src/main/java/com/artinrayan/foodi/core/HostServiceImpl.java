@@ -52,26 +52,70 @@ public class HostServiceImpl implements HostService {
 
     @Override
     public List<Host> findAllHosts() throws BusinessException {
-        return hostDao.findAllHosts();
+        try {
+            return hostDao.findAllHosts();
+        }
+        catch (HostDaoException e)
+        {
+            throw new BusinessException(e.getMessage(), e.getCause());
+        }
     }
 
     @Override
     public Host findHostByHostIdAndUserId(int hostId, User user) throws BusinessException {
-        return hostDao.findHostByHostIdAndUserId(hostId, user);
+        try {
+            return hostDao.findHostByHostIdAndUserId(hostId, user);
+        }
+        catch (HostDaoException e)
+        {
+            throw new BusinessException(e.getMessage(), e.getCause());
+        }
     }
 
     @Override
     public void saveHost(Host host) throws BusinessException{
-        hostDao.save(host);
+        try {
+            hostDao.save(host);
+        }
+        catch (HostDaoException e)
+        {
+            throw new BusinessException(e.getMessage(), e.getCause());
+        }
     }
 
     @Override
     public void updateHost(Host host) throws BusinessException{
-        hostDao.update(host);
+        try {
+            Host entity = hostDao.findByHostId(host.getHostId());
+            if (entity != null)
+            {
+                entity.setHostName(host.getHostName());
+                entity.setCreationDate(host.getCreationDate());
+                entity.setEnabled(host.getEnabled());
+                entity.setHostDetail(host.getHostDetail());
+                entity.setHostAddress(host.getHostAddress());
+                entity.setHostCity(host.getHostCity());
+                entity.setHostCountry(host.getHostCountry());
+                entity.setHostPhoneNumber(host.getHostPhoneNumber());
+                entity.setHostWebSite(host.getHostWebSite());
+                entity.setLatitude(host.getLatitude());
+                entity.setLongitude(host.getLongitude());
+            }
+        }
+        catch (HostDaoException e)
+        {
+            throw new BusinessException(e.getMessage(), e.getCause());
+        }
     }
 
     @Override
     public void deleteHost(int hostId) throws BusinessException{
-        hostDao.delete(hostId);
+        try {
+            hostDao.delete(hostId);
+        }
+        catch (HostDaoException e)
+        {
+            throw new BusinessException(e.getMessage(), e.getCause());
+        }
     }
 }

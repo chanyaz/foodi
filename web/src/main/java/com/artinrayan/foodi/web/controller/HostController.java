@@ -10,6 +10,8 @@ import com.artinrayan.foodi.core.HostAccessService;
 import com.artinrayan.foodi.core.HostService;
 import com.artinrayan.foodi.core.UserService;
 import com.artinrayan.foodi.web.util.ViewUtil;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -24,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.Date;
@@ -128,7 +131,6 @@ public class HostController {
 		}
 
 		model.addAttribute("success", "Host " + host.getHostName() + " registered successfully");
-		//return "success";
 		return ViewUtil.Views.HOSTSUCCESS.getViewName();
 	}
 
@@ -207,6 +209,20 @@ public class HostController {
 		model.addAttribute("host", host);
 		model.addAttribute("edit", true);
 		return "hostRegistration";
+	}
+
+	@PostMapping("/edit-host-{hostId}")
+	public String updateHost(@Valid Host host, BindingResult result,
+							 ModelMap model) throws BusinessException {
+
+		if (result.hasErrors()) {
+			return ViewUtil.Views.USERREGISTRATION.getViewName();
+		}
+
+		hostService.updateHost(host);
+
+		model.addAttribute("success", "Host " + host.getHostName() + " updated successfully");
+		return ViewUtil.Views.HOSTSUCCESS.getViewName();
 	}
 
 	/**
@@ -368,10 +384,12 @@ public class HostController {
 	 * This method will provide the medium to add a new user.
 	 */
 	@RequestMapping(value = { "/hostDetail-{hostId}" }, method = RequestMethod.GET)
-	public String hostDetail(@PathVariable int hostId, ModelMap model) throws BusinessException {
+	public String hostDetail(@PathVariable int hostId, ModelMap model) throws BusinessException, JsonProcessingException {
 		User user = userService.findByUserId(UserUtil.getCurrentUser().getUserId());
 		Host host = hostService.findHostByHostIdAndUserId(hostId, user);
 		model.addAttribute("host", host);
+		ObjectMapper mapper = new ObjectMapper();
+		model.addAttribute("hostStr", mapper.writeValueAsString(host));
 		model.addAttribute("edit", false);
 		return ViewUtil.Views.HOST.getViewName();
 	}

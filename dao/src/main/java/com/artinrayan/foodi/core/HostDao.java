@@ -15,15 +15,13 @@ public interface HostDao {
 
     Host findByHostId(int hostId) throws HostDaoException;
 
-    List<Host> findAllHosts();
+    List<Host> findAllHosts() throws HostDaoException;
 
-    Host findHostByHostIdAndUserId(int hostId, User user);
+    Host findHostByHostIdAndUserId(int hostId, User user) throws HostDaoException;
 
-//    Host findHostByHostIdWithHostAccesses(int hostId);
+    void save(Host host) throws HostDaoException;
 
-    void save(Host host);
+    void update(Host host) throws HostDaoException;
 
-    void update(Host host);
-
-    void delete(int hostId);
+    void delete(int hostId) throws HostDaoException;
 }

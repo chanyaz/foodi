@@ -98,20 +98,12 @@ public class LoginController {
     }
 
     @RequestMapping(value = { "/", "/hostMap" }, method = RequestMethod.GET)
-    public String listHosts(ModelMap modelMap){
+    public String listHosts(ModelMap modelMap) throws BusinessException, JsonProcessingException {
         List<Host> hosts = null;
         ObjectMapper mapper = new ObjectMapper();
-
-        try {
-            hosts = hostService.findAllHosts();
-            modelMap.addAttribute("hostsStr", mapper.writeValueAsString(hosts));
-            modelMap.addAttribute("hosts", hosts);
-
-        } catch (BusinessException e) {
-            e.printStackTrace();
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
+        hosts = hostService.findAllHosts();
+        modelMap.addAttribute("hostsStr", mapper.writeValueAsString(hosts));
+        modelMap.addAttribute("hosts", hosts);
         return ViewUtil.Views.HOSTMAP.getViewName();
     }
 

@@ -1,4 +1,4 @@
-<%--
+<%@ page import="com.artinrayan.foodi.web.util.ImageResolver" %><%--
   Created by IntelliJ IDEA.
   User: asus
   Date: 5/26/2017
@@ -48,6 +48,7 @@
                     <td>${host.hostDetail}</td>
                     <td>${host.creationDate}</td>
                     <td>${host.enabled}</td>
+                    <td><img alt="hello kapil" src="<%ImageResolver.getImage("Abort.png");%>"/></td>
                     <sec:authorize access="hasRole('ADMIN') or hasRole('DBA')">
                         <td><a href="<c:url value='/host/manage-host-file-${host.hostId}' />" class="btn btn-success custom-width">images</a></td>
                     </sec:authorize>

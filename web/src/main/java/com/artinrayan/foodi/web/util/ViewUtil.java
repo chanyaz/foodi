@@ -13,7 +13,7 @@ public class ViewUtil {
         MANAGEHOSTFILE("manageHostFile"),
         HOSTREGISTRATION("hostRegistration"),
         ACCESSDENIED("accessDenied"),
-        HOSTMAP("hostMap"),
+        HOME("home"),
         LOGIN("login"),
         LOGOUT("logout"),
         USERLIST("userlist"),

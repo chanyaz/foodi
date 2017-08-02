@@ -1,65 +1,119 @@
-<!DOCTYPE html>
-<html lang="en-US">
-  <head>
-    <meta charset="UTF-8" /> 
-    <title> Spring MVC 4 REST + AngularJS </title>
-  </head>
-  <body ng-app="myApp">
-   <div ng-controller="HostController as personCtrl">
-       <h1> Spring MVC 4 REST + AngularJS </h1>
-	<form name="personForm" method="POST">
-	    <table>
-		<tr><td colspan="2">
-		  <div ng-if="personCtrl.flag != 'edit'">
-		     <h3> Add New Person </h3> 
-		  </div>
-		  <div ng-if="personCtrl.flag == 'edit'">
-		     <h3> Update Person for ID: {{ personCtrl.person.pid }} </h3> 
-		  </div> </td>
-		</tr>
-		<tr>
-		      <td>Name: </td> <td><input type="text" name="name" ng-model="personCtrl.person.name" required/> 
-         	      <span ng-show="personForm.name.$error.required" class="msg-val">Name is required.</span> </td>
-		</tr>
-		<tr>
-		      <td>Location: </td> <td> <input type="text" name="location" ng-model="personCtrl.person.location" required/> 
-	              <span ng-show="personForm.location.$error.required" class="msg-val">Location is required.</span> </td>
-		</tr>
-		<tr>
-		     <td colspan="2"> <span ng-if="personCtrl.flag=='created'" class="msg-success">Person successfully added.</span>
-		     <span ng-if="personCtrl.flag=='failed'" class="msg-val">Person already exists.</span> </td>
-		</tr>
-	        <tr><td colspan="2">
-	            <div ng-if="personCtrl.flag != 'edit'">
-		       <input  type="submit" ng-click="personCtrl.addPerson()" value="Add Person"/> 
-		       <input type="button" ng-click="personCtrl.reset()" value="Reset"/>
-		    </div>
-		    <div ng-if="personCtrl.flag == 'edit'">
-		       <input  type="submit" ng-click="personCtrl.updatePersonDetail()" value="Update Person"/> 	
-			   <input type="button" ng-click="personCtrl.cancelUpdate()" value="Cancel"/>				   
-		    </div> </td>
-		</tr>
-		<tr>
-		     <td colspan="2"> <span ng-if="personCtrl.flag=='deleted'" class="msg-success">Person successfully deleted.</span>
-		</tr>
-	    </table>     
-	</form>
-        <table>
-	      <tr><th>ID </th> <th>Name</th> <th>Location</th></tr>
-	      <tr ng-repeat="row in personCtrl.allHosts">
-	         <td><span ng-bind="row.hostId"></span></td>
-	         <td><span ng-bind="row.hostName"></span></td>
-	         <td>
-		    <input type="button" ng-click="personCtrl.deletePerson(row.pid)" value="Delete"/>
-		    <input type="button" ng-click="personCtrl.editPerson(row.pid)" value="Edit"/>
-		    <span ng-if="personCtrl.flag=='updated' && row.pid==personCtrl.updatedId" class="msg-success">Person successfully updated.</span> </td> 
-	      </tr>	
-	</table>
-	</div>
-    <script src="${pageContext.request.contextPath}/app-resources/js/lib/angular.min.js"></script>
-    <script src="${pageContext.request.contextPath}/app-resources/js/lib/angular-resource.min.js"></script>
-	<script src="${pageContext.request.contextPath}/app-resources/js/app.js"></script>
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/app-resources/css/style.css"/>
- </body>
-</html>  
-  
+<%--
+  Created by IntelliJ IDEA.
+  User: asus
+  Date: 5/26/2017
+  Time: 2:14 PM
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page isELIgnored="false" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <title>Hosts List</title>
+    <link href="<c:url value='/static/css/bootstrap.css' />" rel="stylesheet"/>
+    <link href="<c:url value='/static/css/app.css' />" rel="stylesheet"/>
+    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyD9kOrSAog9xPLswbLnDaPB_djHHqF0EK8"></script>
+    <link href="<c:url value='/static/css/mapStyle.css' />" rel="stylesheet"/>
+    <script src="<c:url value="/static/js/mainMap.js"/>"></script>
+    <script src="<c:url value="/static/js/lib/jquery-3.2.1.min.js"/>"></script>
+
+    <script>
+
+        function showData(obj)
+        {
+            $.ajax({
+                type : "GET",
+                contentType : "application/json",
+                url : "/hostDetail/" + obj.hostId,
+//                data : JSON.stringify(data),
+                dataType : 'json',
+                timeout : 100000,
+                success : function(data) {
+                    console.log("SUCCESS: ", data);
+                    var obj = JSON.stringify(data);
+                    var jsonObj = JSON.parse(obj);
+                    alert(jsonObj.hostAccessId);
+                    $("#gooo").html("this is id:" + jsonObj.hostAccessId);
+                    $("#accessId").html(jsonObj.hostAccessId);
+//                    display(data);
+                },
+                error : function(e) {
+                    console.log("ERROR: ", e);
+//                    display(e);
+                },
+                done : function(e) {
+                    console.log("DONE");
+//                    enableSearchButton(true);
+                }
+            });
+        }
+
+        $("#hostName").click(function(){
+            $.ajax({
+                url : 'start',
+                method : 'GET',
+                async : false,
+                complete : function(data) {
+                    console.log(data.responseText);
+                }
+            });
+
+        });
+
+        function test(id)
+        {
+            $.ajax({
+                url : '/host/hostDetail/' + id,
+                method : 'GET',
+                async : false,
+                complete : function(data) {
+                    console.log(data.responseText);
+                }
+            });
+        }
+    </script>
+</head>
+
+
+<body>
+<div class="generic-container">
+
+    <%@include file="authheader.jsp" %>
+    <div class="panel panel-default">
+        <form:hidden id="hosts" path="hosts" value="${hostsStr}" />
+        <div id="containerDiv">
+            <table class="table table-hover" width="100%">
+                <tr>
+                    <td width="70%">
+                        <div id="mainMap-canvas"/>
+                    </td>
+                    <td width="25%">
+                        <div style="height: 600px; overflow-y:scroll;">
+                            <table class="table table-hover">
+                                <tbody>
+                                    <c:forEach items="${hosts}" var="host">
+                                        <tr>
+                                            <td><img width="150px" height="100px" src="/displayFileByHostId?id=${host.hostId}"/></td>
+                                            <td><a href="#" onclick="jumpToLocation(${host.hostId},
+                                                ${host.latitude}, ${host.longitude})">${host.hostName}</a></td>
+                                            <%--<td><a target="_blank" href="<c:url value='/host/hostDetail-${host.hostId}' />">${host.hostName}</a></td></td>--%>
+                                            <td>${host.hostCity}</td>
+                                        </tr>
+                                    </c:forEach>
+                                </tbody>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -3,6 +3,7 @@ package com.artinrayan.foodi.web.listener;
 import com.artinrayan.foodi.core.UserService;
 import com.artinrayan.foodi.core.cache.SystemCache;
 import com.artinrayan.foodi.model.User;
+import com.artinrayan.foodi.web.util.FoodiApplicationHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 
@@ -25,6 +26,7 @@ public class ApplicationStartUpListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent event) {
         System.out.println("---- initialize servlet context -----");
+        FoodiApplicationHelper.setServletContext(event.getServletContext());
 //        SystemCache.getInstance();
         // add initialization code here
     }

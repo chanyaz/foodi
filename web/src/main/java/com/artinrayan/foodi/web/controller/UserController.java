@@ -39,7 +39,9 @@ public class UserController {
 
 
     /**
-     * This method will list all existing users.
+     *
+     * @param model
+     * @return
      */
     @RequestMapping(value = { "/**", "/userList" }, method = RequestMethod.GET)
     public String listUsers(ModelMap model) {
@@ -55,7 +57,9 @@ public class UserController {
     }
 
     /**
-     * This method will list all existing users.
+     *
+     * @param model
+     * @return
      */
     @RequestMapping(value = { "/angularMap" }, method = RequestMethod.GET)
     public String angularMap(ModelMap model) {
@@ -64,16 +68,9 @@ public class UserController {
     }
 
     /**
-     * This method will list all existing users.
-     */
-    @RequestMapping(value = { "/home" }, method = RequestMethod.GET)
-    public String home(ModelMap model) {
-
-        return "home";
-    }
-
-    /**
-     * This method will provide the medium to add a new user.
+     *
+     * @param model
+     * @return
      */
     @RequestMapping(value = { "/newUser" }, method = RequestMethod.GET)
     public String newUser(ModelMap model) {
@@ -84,8 +81,12 @@ public class UserController {
     }
 
     /**
-     * This method will be called on form submission, handling POST request for
-     * saving user in database. It also validates the user input
+     *
+     * @param user
+     * @param result
+     * @param model
+     * @return
+     * @throws BusinessException
      */
     @RequestMapping(value = { "/newUser" }, method = RequestMethod.POST)
     public String saveUser(@Valid User user, BindingResult result,
@@ -121,7 +122,12 @@ public class UserController {
     }
 
     /**
-     * This method will provide the medium to update an existing user.
+     *
+     * @param username
+     * @param model
+     * @param request
+     * @return
+     * @throws BusinessException
      */
     @RequestMapping(value = { "/edit-user-{username}" }, method = RequestMethod.GET)
     public String editUser(@PathVariable String username, ModelMap model, HttpServletRequest request) throws BusinessException {
@@ -132,8 +138,15 @@ public class UserController {
     }
 
     /**
-     * This method will be called on form submission, handling POST request for
-     * updating user in database. It also validates the user input
+     *
+     * @param user
+     * @param result
+     * @param model
+     * @param username
+     * @param request
+     * @param userId
+     * @return
+     * @throws BusinessException
      */
     @RequestMapping(value = { "/edit-user-{username}" }, method = RequestMethod.POST)
     public String updateUser(@Valid User user, BindingResult result,
@@ -160,7 +173,10 @@ public class UserController {
 
 
     /**
-     * This method will delete an user by it's username value.
+     *
+     * @param username
+     * @return
+     * @throws BusinessException
      */
     @RequestMapping(value = { "/delete-user-{username}" }, method = RequestMethod.GET)
     public String deleteUser(@PathVariable String username) throws BusinessException {
@@ -170,7 +186,8 @@ public class UserController {
 
 
     /**
-     * This method will provide UserProfile list to views
+     *
+     * @return
      */
     @ModelAttribute("roles")
     public List<UserProfile> initializeProfiles() {

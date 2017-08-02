@@ -52,7 +52,7 @@ public class User implements Serializable{
 	@Fetch(FetchMode.SUBSELECT)
 	private Set<UserProfile> userProfiles = new HashSet<UserProfile>();
 
-	@OneToMany(mappedBy="user", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy="user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@Fetch(FetchMode.JOIN)
 	private Set<Host> userHosts = new HashSet<Host>();
 

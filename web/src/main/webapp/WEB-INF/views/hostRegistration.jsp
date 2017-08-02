@@ -34,7 +34,7 @@
 
         <div class="row">
             <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="hostDetail">Host Name</label>
+                <label class="col-md-3 control-lable" for="hostDetail">Host Description</label>
                 <div class="col-md-7">
                     <form:textarea type="text" path="hostDetail" id="hostDetail" class="form-control input-sm"/>
                     <div class="has-error">
@@ -139,6 +139,20 @@
                 </div>
             </div>
         </div>
+
+        <c:choose>
+            <c:when test="${edit}">
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label class="col-md-3 control-lable">creationDate</label>
+                        <div class="col-md-7">
+                            <c:out value="${host.creationDate}"/>
+                        </div>
+                    </div>
+                </div>
+            </c:when>
+        </c:choose>
+
 
         <div class="row">
             <div class="form-actions floatRight">

@@ -2,6 +2,7 @@ package com.artinrayan.foodi.web.security.handler;
 
 import com.artinrayan.foodi.core.UserService;
 import com.artinrayan.foodi.model.CurrentUser;
+import com.artinrayan.foodi.web.util.ViewUtil;
 import com.mysql.jdbc.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -36,9 +37,6 @@ public class FoodiAuthenticationSuccessHandler extends SimpleUrlAuthenticationSu
 
         // changeLastLoginTime(username)
 //        userService.changeLastLoginTime(authentication.getName());
-//
-//        setDefaultTargetUrl("/home");
-//        super.onAuthenticationSuccess(request, response, authentication);
 
         HttpSession session = request.getSession();
         CurrentUser authUser = (CurrentUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -55,7 +53,7 @@ public class FoodiAuthenticationSuccessHandler extends SimpleUrlAuthenticationSu
 
         //since we have created our custom success handler, its up to us to where
         //we will redirect the user after successfully login
-        response.sendRedirect("hostMap");
+        response.sendRedirect(ViewUtil.Views.HOME.getViewName());
     }
 
 }

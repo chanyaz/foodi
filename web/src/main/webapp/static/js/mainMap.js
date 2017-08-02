@@ -72,11 +72,13 @@ function createMarker(latlng, hostObj){
     // and the Info Window is opened.
     google.maps.event.addListener(marker, 'click', function() {
 
+        var link = "/host/hostDetail-" + hostObj.hostId;
         // Creating the content to be inserted in the infowindow
         var iwContent = '<div id="iw_container">' +
             '<div class="iw_title">Name: ' + hostObj.hostName + '</div>' +
             '<div class="iw_content">Address: ' + hostObj.hostAddress + '<br />Telephone: ' +
-            hostObj.hostPhoneNumber + '<br /></div></div>';
+            hostObj.hostPhoneNumber + '<br /><br />' +
+            '<a id="linkUrl" target="_blank" href="' + link + '"/>View</a>' + '</div></div>';
 
         // including content to the Info Window.
         infoWindow.setContent(iwContent);
@@ -112,7 +114,6 @@ function jumpToLocation(hostId, latitude, longitude)
             });
 
             var link = "/host/hostDetail-" + hostObj.hostId;
-            //google.maps.event.addListener(marker, 'click', function() {
 
             // Creating the content to be inserted in the infowindow
             var iwContent = '<div id="iw_container">' +
@@ -121,14 +122,7 @@ function jumpToLocation(hostId, latitude, longitude)
                 hostObj.hostPhoneNumber + '<br /><br />' +
                 '<a id="linkUrl" target="_blank" href="' + link + '"/>View</a>' + '</div></div>';
 
-            //document.getElementById('linkUrl').href = link;
-
-
             infoWindow.setContent(iwContent);
-
-
-            // including content to the Info Window.
-            //infoWindow.setContent(iwContent);
 
             // opening the Info Window in the current map and at the current marker location.
             infoWindow.open(map, marker);
@@ -138,16 +132,10 @@ function jumpToLocation(hostId, latitude, longitude)
         },
         error : function(e) {
             console.log("ERROR: ", e);
-//                    display(e);
         },
         done : function(e) {
             console.log("DONE");
-//                    enableSearchButton(true);
         }
     });
 
-
-
-//}
-//);
 }

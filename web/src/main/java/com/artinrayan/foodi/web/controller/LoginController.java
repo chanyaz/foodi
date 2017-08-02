@@ -31,7 +31,6 @@ import java.util.List;
 public class LoginController {
 
 
-
     @Autowired
     PersistentTokenBasedRememberMeServices persistentTokenBasedRememberMeServices;
 
@@ -51,18 +50,15 @@ public class LoginController {
         return "userManagement";
     }
 
-    @RequestMapping(value = "/ang", method = RequestMethod.GET)
-    public String ang() {
-        return "angularMap";
-    }
-
     @RequestMapping(value = "/testHost", method = RequestMethod.GET)
     public String hostManagementPage() {
         return "hostManagement";
     }
 
     /**
-     * This method handles Access-Denied redirect.
+     *
+     * @param model
+     * @return
      */
     @RequestMapping(value = "/Access_Denied", method = RequestMethod.GET)
     public String accessDeniedPage(ModelMap model) {
@@ -70,21 +66,34 @@ public class LoginController {
     }
 
     /**
-     * This method handles login GET requests.
-     * If users is already logged-in and tries to goto login page again, will be redirected to list page.
+     *
+     * @return
      */
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String loginPage() {
         if (isCurrentAuthenticationAnonymous()) {
             return ViewUtil.Views.LOGIN.getViewName();
         } else {
-            return ViewUtil.Views.HOSTMAP.getViewName();
+            return ViewUtil.Views.HOME.getViewName();
         }
     }
 
     /**
-     * This method handles logout requests.
-     * Toggle the handlers if you are RememberMe functionality is useless in your app.
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = { "/homeAngular" }, method = RequestMethod.GET)
+    public String home(ModelMap model) {
+
+        return "home";
+    }
+
+    /**
+     *
+     * @param request
+     * @param response
+     * @return
      */
     @RequestMapping(value="/logout", method = RequestMethod.GET)
     public String logoutPage (HttpServletRequest request, HttpServletResponse response){
@@ -97,14 +106,21 @@ public class LoginController {
         return "redirect:/login?logout";
     }
 
-    @RequestMapping(value = { "/", "/hostMap" }, method = RequestMethod.GET)
+    /**
+     *
+     * @param modelMap
+     * @return
+     * @throws BusinessException
+     * @throws JsonProcessingException
+     */
+    @RequestMapping(value = { "/", "/home" }, method = RequestMethod.GET)
     public String listHosts(ModelMap modelMap) throws BusinessException, JsonProcessingException {
         List<Host> hosts = null;
         ObjectMapper mapper = new ObjectMapper();
         hosts = hostService.findAllHosts();
         modelMap.addAttribute("hostsStr", mapper.writeValueAsString(hosts));
         modelMap.addAttribute("hosts", hosts);
-        return ViewUtil.Views.HOSTMAP.getViewName();
+        return ViewUtil.Views.HOME.getViewName();
     }
 
     @GetMapping("/error")

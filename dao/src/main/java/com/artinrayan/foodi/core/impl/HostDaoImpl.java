@@ -3,6 +3,7 @@ package com.artinrayan.foodi.core.impl;
 import com.artinrayan.foodi.core.AbstractDao;
 import com.artinrayan.foodi.core.HostDao;
 import com.artinrayan.foodi.model.Host;
+import com.artinrayan.foodi.model.HostFile;
 import com.artinrayan.foodi.model.User;
 import exceptions.HostDaoException;
 import org.hibernate.Criteria;
@@ -35,6 +36,13 @@ public class HostDaoImpl extends AbstractDao<Integer, Host> implements HostDao {
 
             Query query =  getSession().getNamedQuery(Host.GET_HOST_BY_USER_ID);
             query.setInteger("userId", userID);
+
+//            List<Host> hostList = (List<Host>) query.list();
+//
+//            if (hostList != null && hostList.size() > 0) {
+//                for (Host host : hostList)
+//                    Hibernate.initialize(host.getHostFiles());
+//            }
             return query.list();
 
 //            Criteria criteria = createEntityCriteria().addOrder(Order.asc("hostName"));
@@ -115,7 +123,8 @@ public class HostDaoImpl extends AbstractDao<Integer, Host> implements HostDao {
         Criteria criteria = createEntityCriteria();
         criteria.add(Restrictions.eq("hostId", hostId));
         Host host = (Host) criteria.uniqueResult();
-        if (host != null)
+        if (host != null) {
             delete(host);
+        }
     }
 }

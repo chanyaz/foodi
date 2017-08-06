@@ -38,6 +38,12 @@
             <artifactId>foodi-message</artifactId>
             <version>${pom.parent.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.extrema-sistemas</groupId>
+            <artifactId>tldgen</artifactId>
+            <version>1.4.0</version>
+        </dependency>
+
 
     </dependencies>
 

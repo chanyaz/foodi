@@ -10,6 +10,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@taglib prefix="f" uri="/WEB-INF/tlds/fImage" %>
+
 
 <html>
 
@@ -100,6 +102,8 @@
                                     <c:forEach items="${hosts}" var="host">
                                         <tr>
                                             <td><img width="150px" height="100px" src="/displayFileByHostId?id=${host.hostId}"/></td>
+                                            <td><img width="150px" height="100px" src="<f:showImage ownerId="${host.hostId}"/>"</td>
+
                                             <td><a href="#" onclick="jumpToLocation(${host.hostId},
                                                 ${host.latitude}, ${host.longitude})">${host.hostName}</a></td>
                                             <%--<td><a target="_blank" href="<c:url value='/host/hostDetail-${host.hostId}' />">${host.hostName}</a></td></td>--%>

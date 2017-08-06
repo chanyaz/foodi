@@ -8,11 +8,10 @@ import org.springframework.web.context.annotation.ApplicationScope;
 @ApplicationScope
 public class ImageResolver {
 
-    private static final String imagesUrl = "images";
+    private static final String imagesUrl = "static/images/";
 
     public static String getImage(String path) {
-        return FoodiApplicationHelper.getServletContext().getContextPath() + "/" + imagesUrl +
-                "/" + path;
+        return FoodiApplicationHelper.getServletContext().getContextPath() + "/" + imagesUrl + path;
     }
 
 

@@ -10,6 +10,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
+
 <html>
 
 <head>
@@ -48,7 +49,8 @@
                     <td>${host.hostDetail}</td>
                     <td>${host.creationDate}</td>
                     <td>${host.enabled}</td>
-                    <td><img alt="hello kapil" src="<%ImageResolver.getImage("Abort.png");%>"/></td>
+                    <%--<td><img alt="" src="/imageLocator?img=Abort.png"></td>--%>
+                    <td><img src="<c:url value='/static/images/small/Yes.png'/>" /></td>
                     <sec:authorize access="hasRole('ADMIN') or hasRole('DBA')">
                         <td><a href="<c:url value='/host/manage-host-file-${host.hostId}' />" class="btn btn-success custom-width">images</a></td>
                     </sec:authorize>

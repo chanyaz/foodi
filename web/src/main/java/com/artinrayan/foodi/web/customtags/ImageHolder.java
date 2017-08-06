@@ -1,36 +1,63 @@
 package com.artinrayan.foodi.web.customtags;
 
+import com.artinrayan.foodi.core.HostService;
+import com.artinrayan.foodi.model.Host;
+import com.artinrayan.foodi.model.HostFile;
+import exception.BusinessException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.codec.Base64;
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+import org.tldgen.annotations.Attribute;
+import org.tldgen.annotations.BodyContent;
+import org.tldgen.annotations.Tag;
+
+import javax.inject.Inject;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
+import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 import java.io.IOException;
 
 /**
  * Created by asus on 7/19/2017.
  */
+@Component
+@Tag(dynamicAttributes = true, bodyContent = BodyContent.SCRIPTLESS, example = "<m:showImage ownerId=\"1\"/>")
 public class ImageHolder extends SimpleTagSupport {
 
+    @Attribute(required=true)
+    private int ownerId;
 
-    // adding to github
-    private byte[] usrImage;
-
-    public void setUsrImage(byte[] usrImage) {
-        this.usrImage = usrImage;
-    }
-
+    @Inject
+    HostService hostService;
 
     @Override
     public void doTag() throws JspException, IOException {
-//        System.out.println("tag lib");
-//        try {
-//            JspWriter out = getJspContext().getOut();
-//            if (usrImage != null && usrImage.length > 0) {
-//                byte[] encodeBase64 = Base64.encode(usrImage);
-//                String base64Encoded = new String(encodeBase64, "UTF-8");
-//                out.print("data:image/jpeg;base64,"+base64Encoded);
-//
-//            }
-//        } catch (Exception e) {
-//            throw new JspException("Error: " + e.getMessage());     }
+        System.out.println("tag lib");
+        HostService hostService = WebApplicationContextUtils.getRequiredWebApplicationContext(
+                ((PageContext)getJspContext()).getServletContext()).getBean(HostService.class);
+
+        try {
+            Host host = hostService.findHostByHostId(ownerId);
+            HostFile hostFile = (HostFile) host.getHostFiles().toArray()[0];
+
+            JspWriter out = getJspContext().getOut();
+            byte[] encodeBase64 = Base64.encode(hostFile.getFileContent());
+            String base64Encoded = new String(encodeBase64, "UTF-8");
+            String outputStr = "data:image" + (hostFile.getFileType() != null ? hostFile.getFileType()
+                    : "jpg") + ";base64," + base64Encoded;
+            out.print(outputStr);
+        }
+        catch (BusinessException e) {
+            e.printStackTrace();
+        }
+        catch (Exception e) {
+            throw new JspException("Error: " + e.getMessage());
+        }
+    }
+
+    public void setOwnerId(int ownerId) {
+        this.ownerId = ownerId;
     }
 }

@@ -101,7 +101,6 @@
                                 <tbody>
                                     <c:forEach items="${hosts}" var="host">
                                         <tr>
-                                            <td><img width="150px" height="100px" src="/displayFileByHostId?id=${host.hostId}"/></td>
                                             <td><img width="150px" height="100px" src="<f:showImage ownerId="${host.hostId}"/>"</td>
 
                                             <td><a href="#" onclick="jumpToLocation(${host.hostId},

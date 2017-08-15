@@ -1,7 +1,6 @@
 package com.artinrayan.foodi.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -12,11 +11,11 @@ import java.util.Date;
  * Created by asus on 7/18/2017.
  */
 @Entity
-@Table(name = "HostFile")
-public class HostFile implements Serializable{
+@Table(name = "Attachment")
+public class Attachment implements Serializable{
 
     @Id
-    @Column(name = "FileId")
+    @Column(name = "AttachmentId")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
@@ -89,7 +88,7 @@ public class HostFile implements Serializable{
 
     @Override
     public String toString() {
-        return "HostFile{" +
+        return "Attachment{" +
                 "id=" + id +
                 ", creationDate=" + creationDate +
                 ", fileType='" + fileType + '\'' +
@@ -99,15 +98,15 @@ public class HostFile implements Serializable{
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof HostFile)) return false;
+        if (!(o instanceof Attachment)) return false;
 
-        HostFile hostFile = (HostFile) o;
+        Attachment attachment = (Attachment) o;
 
-        if (id != null ? !id.equals(hostFile.id) : hostFile.id != null) return false;
-        if (!Arrays.equals(fileContent, hostFile.fileContent)) return false;
-        if (creationDate != null ? !creationDate.equals(hostFile.creationDate) : hostFile.creationDate != null)
+        if (id != null ? !id.equals(attachment.id) : attachment.id != null) return false;
+        if (!Arrays.equals(fileContent, attachment.fileContent)) return false;
+        if (creationDate != null ? !creationDate.equals(attachment.creationDate) : attachment.creationDate != null)
             return false;
-        return !(fileType != null ? !fileType.equals(hostFile.fileType) : hostFile.fileType != null);
+        return !(fileType != null ? !fileType.equals(attachment.fileType) : attachment.fileType != null);
 
     }
 

@@ -2,9 +2,8 @@ package com.artinrayan.foodi.web.customtags;
 
 import com.artinrayan.foodi.core.HostService;
 import com.artinrayan.foodi.model.Host;
-import com.artinrayan.foodi.model.HostFile;
+import com.artinrayan.foodi.model.Attachment;
 import exception.BusinessException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.codec.Base64;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -40,12 +39,12 @@ public class ImageHolder extends SimpleTagSupport {
 
         try {
             Host host = hostService.findHostByHostId(ownerId);
-            HostFile hostFile = (HostFile) host.getHostFiles().toArray()[0];
+            Attachment attachment = (Attachment) host.getAttachments().toArray()[0];
 
             JspWriter out = getJspContext().getOut();
-            byte[] encodeBase64 = Base64.encode(hostFile.getFileContent());
+            byte[] encodeBase64 = Base64.encode(attachment.getFileContent());
             String base64Encoded = new String(encodeBase64, "UTF-8");
-            String outputStr = "data:image" + (hostFile.getFileType() != null ? hostFile.getFileType()
+            String outputStr = "data:image" + (attachment.getFileType() != null ? attachment.getFileType()
                     : "jpg") + ";base64," + base64Encoded;
             out.print(outputStr);
         }

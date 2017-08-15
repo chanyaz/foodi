@@ -100,7 +100,7 @@ public class HostServiceImpl implements HostService {
                 entity.setHostWebSite(host.getHostWebSite());
                 entity.setLatitude(host.getLatitude());
                 entity.setLongitude(host.getLongitude());
-                entity.setHostFiles(host.getHostFiles());
+                entity.setAttachments(host.getAttachments());
             }
         }
         catch (HostDaoException e)

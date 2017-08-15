@@ -24,7 +24,7 @@
     <%@include file="authheader.jsp" %>
     ${success}
 
-    <form:form method="POST" enctype="multipart/form-data" modelAttribute="hostFile" class="form-horizontal">
+    <form:form method="POST" enctype="multipart/form-data" modelAttribute="attachment" class="form-horizontal">
         <div class="row">
             <div class="form-group col-md-12">
                 <label class="col-md-3 control-lable" for="fileContent">File to upload</label>
@@ -53,13 +53,13 @@
     <div class="panel panel-default">
         <!-- Default panel contents -->
         <div class="panel-heading"><span class="lead">List of Hosts </span></div>
-        <form:form method="POST" modelAttribute="hostFile" class="form-horizontal">
+        <form:form method="POST" modelAttribute="attachment" class="form-horizontal">
             <table class="table table-hover">
                 <thead>
                     <tr>
                         <th>Host Name</th>
                         <th>Creation date</th>
-                        <th>File</th>
+                        <th>Attachment</th>
                         <sec:authorize access="hasRole('ADMIN') or hasRole('DBA')">
                             <th width="100"></th>
                         </sec:authorize>
@@ -70,16 +70,16 @@
                     </tr>
                 </thead>
                 <tbody>
-                <c:forEach items="${hostFiles}" var="hostFile">
+                <c:forEach items="${attachments}" var="attachment">
                     <tr>
-                        <td>${hostFile.host.hostName}</td>
-                        <td>${hostFile.creationDate}</td>
-                        <td><img width="150px" height="100px" src="/displayFileByFileId?id=${hostFile.id}"/></td>
+                        <td>${attachment.host.hostName}</td>
+                        <td>${attachment.creationDate}</td>
+                        <td><img width="150px" height="100px" src="/displayAttachmentById?id=${attachment.id}"/></td>
                         <sec:authorize access="hasRole('ADMIN') or hasRole('DBA')">
-                            <td><a href="<c:url value='/host/edit-host-file-${hostFile.id}' />" class="btn btn-success custom-width">edit</a></td>
+                            <td><a href="<c:url value='/host/edit-host-file-${attachment.id}' />" class="btn btn-success custom-width">edit</a></td>
                         </sec:authorize>
                         <sec:authorize access="hasRole('ADMIN')">
-                            <td><a href="<c:url value='/host/delete-host-file-${hostFile.id}' />" class="btn btn-danger custom-width">delete</a></td>
+                            <td><a href="<c:url value='/host/delete-host-file-${attachment.id}' />" class="btn btn-danger custom-width">delete</a></td>
                         </sec:authorize>
                     </tr>
                 </c:forEach>

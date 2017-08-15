@@ -21,40 +21,40 @@ App.controller('HostController', ['$scope', 'Host', function($scope, Host) {
 
     self.hosts=[];
 
-    self.fetchAllUsers = function(){
+    self.fetchAllHosts = function(){
         self.hosts = Host.query();
     };
 
-    self.createUser = function(){
+    self.createHost = function(){
         self.host.$save(function(){
-            self.fetchAllUsers();
+            self.fetchAllHosts();
         });
     };
 
-    self.updateUser = function(){
+    self.updateHost = function(){
         self.host.$update(function(){
-            self.fetchAllUsers();
+            self.fetchAllHosts();
         });
     };
 
-    self.deleteUser = function(identity){
+    self.deleteHost = function(identity){
         var host = Host.get({id:identity}, function() {
             host.$delete(function(){
                 console.log('Deleting host with id ', identity);
-                self.fetchAllUsers();
+                self.fetchAllHosts();
             });
         });
     };
 
-    self.fetchAllUsers();
+    self.fetchAllHosts();
 
     self.submit = function() {
         if(self.host.hostId==null){
             console.log('Saving New Host', self.host);
-            self.createUser();
+            self.createHost();
         }else{
             console.log('Upddating host with id ', self.host.hostId);
-            self.updateUser();
+            self.updateHost();
             console.log('Host updated with id ', self.host.hostId);
         }
         self.reset();
@@ -75,7 +75,7 @@ App.controller('HostController', ['$scope', 'Host', function($scope, Host) {
         if(self.host.hostId === id) {//If it is the one shown on screen, reset screen
             self.reset();
         }
-        self.deleteUser(id);
+        self.deleteHost(id);
     };
 
 

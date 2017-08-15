@@ -1,22 +1,17 @@
 package com.artinrayan.foodi.web.controller;
 
-import com.artinrayan.foodi.core.HostFileService;
-import com.artinrayan.foodi.model.HostFile;
+import com.artinrayan.foodi.core.*;
+import com.artinrayan.foodi.model.Attachment;
 import com.artinrayan.foodi.web.util.UserUtil;
 import com.artinrayan.foodi.model.Host;
-import com.artinrayan.foodi.model.HostAccess;
+import com.artinrayan.foodi.model.Category;
 import com.artinrayan.foodi.model.User;
-import com.artinrayan.foodi.core.HostAccessService;
-import com.artinrayan.foodi.core.HostService;
-import com.artinrayan.foodi.core.UserService;
 import com.artinrayan.foodi.web.util.ViewUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -26,11 +21,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping("/host")
@@ -49,7 +42,10 @@ public class HostController {
 	MessageSource messageSource;
 
 	@Autowired
-	HostFileService hostFileService;
+	AttachmentService attachmentService;
+
+	@Autowired
+	CategoryService categoryService;
 
 
 
@@ -157,7 +153,7 @@ public class HostController {
      */
 	@RequestMapping(value = { "/add-host-access-{hostId}" }, method = RequestMethod.GET)
 	public String addHostAccess(@PathVariable int hostId, ModelMap model) {
-		HostAccess hostAccess = new HostAccess();
+		Category hostAccess = new Category();
 		model.addAttribute("hostAccess", hostAccess);
 		model.addAttribute("edit", false);
 		return "hostAccessRegistration";
@@ -200,28 +196,28 @@ public class HostController {
 	 * @return
 	 * @throws BusinessException
 	 */
-	@GetMapping("/manage-host-file-{hostId}")
-	public String loadHostAccessImage(@PathVariable int hostId, ModelMap model) throws BusinessException {
+	@GetMapping("/manage-attachment-{hostId}")
+	public String prepareHostAttachments(@PathVariable int hostId, ModelMap model) throws BusinessException {
 		Host host = hostService.findHostByHostId(hostId);
-		HostFile hostFile = new HostFile();
-		hostFile.setHost(host);
-		model.addAttribute("hostFile", hostFile);
+		Attachment attachment = new Attachment();
+		attachment.setHost(host);
+		model.addAttribute("attachment", attachment);
 
-		model.addAttribute("hostFiles", host.getHostFiles());
-		return ViewUtil.Views.MANAGEHOSTFILE.getViewName();
+		model.addAttribute("attachments", host.getAttachments());
+		return ViewUtil.Views.MANAGEHOSTATTACHMENT.getViewName();
 	}
 
 	/**
 	 *
-	 * @param hostFile
+	 * @param attachment
 	 * @param result
 	 * @param hostId
 	 * @param model
 	 * @return
 	 * @throws BusinessException
 	 */
-	@PostMapping("/manage-host-file-{hostId}")
-	public String saveImage(@Valid HostFile hostFile, BindingResult result,
+	@PostMapping("/manage-attachment-{hostId}")
+	public String saveAttachment(@Valid Attachment attachment, BindingResult result,
 							@RequestParam("fileContent") MultipartFile fileContent,
 							@PathVariable int hostId, ModelMap model) throws BusinessException {
 
@@ -231,13 +227,13 @@ public class HostController {
 
 		try {
 			Host host = hostService.findHostByHostId(hostId);
-			hostFile.setHost(host);
-			hostFile.setFileContent(fileContent.getBytes());
-			hostFile.setCreationDate(new Date());
-			hostFile.setFileType(
+			attachment.setHost(host);
+			attachment.setFileContent(fileContent.getBytes());
+			attachment.setCreationDate(new Date());
+			attachment.setFileType(
 					fileContent.getOriginalFilename().substring(fileContent.getOriginalFilename().lastIndexOf(".") + 1));
 
-			hostFileService.saveHostFile(hostFile);
+			attachmentService.saveAttachment(attachment);
 
 		}
 		catch (BusinessException e)
@@ -249,7 +245,7 @@ public class HostController {
 			e.printStackTrace();
 		}
 
-		model.addAttribute("success", "HostFile registered successfully");
+		model.addAttribute("success", "Attachment registered successfully");
 		return ViewUtil.Views.HOSTSUCCESS.getViewName();
 	}
 
@@ -274,17 +270,38 @@ public class HostController {
 
 	/**
 	 *
-	 * @param hostFileId
+	 * @param attachmentId
 	 * @param model
 	 * @return
 	 * @throws BusinessException
      */
-	@RequestMapping(value = { "/delete-host-file-{hostFileId}" }, method = RequestMethod.GET)
-	public String deleteHostFile(@PathVariable int hostFileId, Model model) throws BusinessException {
-		hostFileService.deleteHostFileById(hostFileId);
+	@RequestMapping(value = { "/delete-host-file-{attachmentId}" }, method = RequestMethod.GET)
+	public String deleteAttachment(@PathVariable int attachmentId, Model model) throws BusinessException {
+		attachmentService.deleteAttachmentById(attachmentId);
 		return "redirect:/host/" + ViewUtil.Views.HOSTLIST.getViewName();
 	}
 
+	/**
+	 *
+	 * @param hostId
+	 * @param model
+	 * @return
+	 * @throws BusinessException
+     */
+	@GetMapping("/manage-category-{hostId}")
+	public String prepareHostCategories(@PathVariable int hostId, ModelMap model) throws BusinessException {
+
+		Host host = hostService.findHostByHostId(hostId);
+		List<Category> categories = categoryService.findHostCategoriesByHostId(host);
+		model.addAttribute("categories", categories);
+		return ViewUtil.Views.MANAGEHOSTCATEGORY.getViewName();
+	}
+
+	/**
+	 *
+	 * @param ex
+	 * @return
+     */
 	@ExceptionHandler(BusinessException.class)
 	public ModelAndView handleCustomException(BusinessException ex) {
 
@@ -295,5 +312,20 @@ public class HostController {
 		return model;
 
 	}
+
+	/**
+	 *
+	 * @return
+     */
+	@ModelAttribute("activationList")
+	public Map<Boolean, String> getCountryList()
+	{
+		Map<Boolean, String> activationStatus = new LinkedHashMap<Boolean, String>();
+		activationStatus.put(true, "Active");
+		activationStatus.put(false, "Inactive");
+
+		return activationStatus;
+	}
+
 
 }

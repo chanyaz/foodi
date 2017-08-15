@@ -55,7 +55,7 @@
                             </table>
                         </td>
                         <td width="50%">
-                            <img width="100%" height="100%" src="/displayFileByHostId?id=${host.hostId}"/>
+                            <img width="100%" height="100%" src="/displayAttachmentByHostId?id=${host.hostId}"/>
                         </td>
                     </tr>
                 </table>

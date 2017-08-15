@@ -50,7 +50,7 @@ body{
 }
 
 .custom-width {
-	width: 80px !important;
+	width: 95% !important;
 }
 
 body, #mainWrapper, .form-control{

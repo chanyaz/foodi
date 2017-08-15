@@ -56,9 +56,72 @@
 
                 <div class="row">
                     <div class="form-group col-md-12">
+                        <label class="col-md-2 control-lable" for="detail">detail</label>
+                        <div class="col-md-7">
+                            <input type="text" ng-model="ctrl.host.hostDetail" id="detail" class="form-control input-sm" placeholder="Enter your detail. [This field is validation free]"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-lable" for="country">country</label>
+                        <div class="col-md-7">
+                            <input type="text" ng-model="ctrl.host.hostCountry" id="country" class="form-control input-sm" placeholder="Enter your country. [This field is validation free]"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-lable" for="country">state</label>
+                        <div class="col-md-7">
+                            <input type="text" ng-model="ctrl.host.hostState" id="state" class="form-control input-sm" placeholder="Enter your state. [This field is validation free]"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-12">
                         <label class="col-md-2 control-lable" for="address">Address</label>
                         <div class="col-md-7">
-                            <input type="text" ng-model="ctrl.host.hostDetail" id="address" class="form-control input-sm" placeholder="Enter your Address. [This field is validation free]"/>
+                            <input type="text" ng-model="ctrl.host.hostAddress" id="address" class="form-control input-sm" placeholder="Enter your Address. [This field is validation free]"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-lable" for="city">city</label>
+                        <div class="col-md-7">
+                            <input type="text" ng-model="ctrl.host.hostCity" id="city" class="form-control input-sm" placeholder="Enter your city. [This field is validation free]"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-lable" for="city">hostPhoneNumber</label>
+                        <div class="col-md-7">
+                            <input type="number" ng-model="ctrl.host.hostPhoneNumber" id="hostPhoneNumber" class="form-control input-sm" placeholder="Enter your hostPhoneNumber. [This field is validation free]"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-lable" for="latitude">latitude</label>
+                        <div class="col-md-7">
+                            <input type="text" ng-model="ctrl.host.latitude" id="latitude" class="form-control input-sm" placeholder="Enter your latitude. [This field is validation free]"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-lable" for="longitude">longitude</label>
+                        <div class="col-md-7">
+                            <input type="text" ng-model="ctrl.host.longitude" id="longitude" class="form-control input-sm" placeholder="Enter your longitude. [This field is validation free]"/>
                         </div>
                     </div>
                 </div>
@@ -94,20 +157,18 @@
                 <tr>
                     <th>ID.</th>
                     <th>Name</th>
-                    <th>Address</th>
                     <%--<th>Email</th>--%>
                     <th width="20%"></th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="u in ctrl.hosts">
-                    <td><span ng-bind="u.hostId"></span></td>
-                    <td><span ng-bind="u.hostName"></span></td>
-                    <td><span ng-bind="u.hostDetail"></span></td>
+                <tr ng-repeat="h in ctrl.hosts">
+                    <td><span ng-bind="h.hostId"></span></td>
+                    <td><span ng-bind="h.hostName"></span></td>
                     <%--<td><span ng-bind="u.address"></span></td>--%>
                     <%--<td><span ng-bind="u.email"></span></td>--%>
                     <td>
-                        <button type="button" ng-click="ctrl.edit(u.hostId)" class="btn btn-success custom-width">Edit</button>  <button type="button" ng-click="ctrl.remove(u.hostId)" class="btn btn-danger custom-width">Remove</button>
+                        <button type="button" ng-click="ctrl.edit(h.hostId)" class="btn btn-success custom-width">Edit</button>  <button type="button" ng-click="ctrl.remove(h.hostId)" class="btn btn-danger custom-width">Remove</button>
                     </td>
                 </tr>
                 </tbody>

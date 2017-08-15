@@ -1,6 +1,6 @@
 package com.artinrayan.foodi.core;
 
-import com.artinrayan.foodi.model.HostAccess;
+import com.artinrayan.foodi.model.Category;
 import exceptions.HostAccessDaoException;
 
 import java.util.List;
@@ -10,13 +10,13 @@ import java.util.List;
  */
 public interface HostAccessDao {
 
-    HostAccess findHostAccessById(int hostAccessId) throws HostAccessDaoException;
+    Category findHostAccessById(int hostAccessId) throws HostAccessDaoException;
 
-    List<HostAccess> findByUserIdAndHostId(int userId, int hostId) throws HostAccessDaoException;
+    List<Category> findByUserIdAndHostId(int userId, int hostId) throws HostAccessDaoException;
 
-    List<HostAccess> findAllHostsAccesses() throws HostAccessDaoException;
+    List<Category> findAllHostsAccesses() throws HostAccessDaoException;
 
-    void save(HostAccess hostAccess) throws HostAccessDaoException;
+    void save(Category hostAccess) throws HostAccessDaoException;
 
     void deleteById(long hostAccessId) throws HostAccessDaoException;
 }

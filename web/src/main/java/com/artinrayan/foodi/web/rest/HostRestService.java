@@ -37,7 +37,7 @@ public class HostRestService {
     //-------------------Retrieve All Hosts--------------------------------------------------------
 
     @RequestMapping(value = "/host", method = RequestMethod.GET)
-    public ResponseEntity<List<Host>> listAllUsers() {
+    public ResponseEntity<List<Host>> listAllHosts() {
         List<Host> hosts = null;
         try {
             hosts = hostService.findAllHosts();
@@ -56,13 +56,13 @@ public class HostRestService {
     //-------------------Retrieve Single Host--------------------------------------------------------
 
     @RequestMapping(value = "/host/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Host> getUser(@PathVariable("id") int id) {
-        System.out.println("Fetching User with id " + id);
+    public ResponseEntity<Host> getHost(@PathVariable("id") int id) {
+        System.out.println("Fetching Host with id " + id);
         Host host = null;
         try {
             host = hostService.findHostByHostId(id);
             if (host == null) {
-                System.out.println("User with id " + id + " not found");
+                System.out.println("Host with id " + id + " not found");
                 return new ResponseEntity<Host>(HttpStatus.NOT_FOUND);
             }
         } catch (BusinessException e) {
@@ -74,14 +74,14 @@ public class HostRestService {
 
 
 
-    //-------------------Create a User--------------------------------------------------------
+    //-------------------Create a Host--------------------------------------------------------
 
     @RequestMapping(value = "/host", method = RequestMethod.POST)
-    public ResponseEntity<Void> createUser(@RequestBody Host host, UriComponentsBuilder ucBuilder) {
-        System.out.println("Creating User " + host.getHostName());
+    public ResponseEntity<Void> createHost(@RequestBody Host host, UriComponentsBuilder ucBuilder) {
+        System.out.println("Creating Host " + host.getHostName());
 
         try {
-            User user = userService.findUserByUsername("sam");
+            User user = userService.findUserByUsername(UserUtil.getCurrentUser().getUsername());
             host.setUser(user);
             host.setEnabled(true);
             host.setCreationDate(new Date());
@@ -91,17 +91,17 @@ public class HostRestService {
         }
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(ucBuilder.path("/user/{id}").buildAndExpand(host.getHostId()).toUri());
+        headers.setLocation(ucBuilder.path("/host/{id}").buildAndExpand(host.getHostId()).toUri());
         return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
     }
 
 
 
-    //------------------- Update a User --------------------------------------------------------
+    //------------------- Update a Host --------------------------------------------------------
 
     @RequestMapping(value = "/host/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> updateUser(@PathVariable("id") int id, @RequestBody Host host) {
-        System.out.println("Updating User " + id);
+    public ResponseEntity<Void> updateHost(@PathVariable("id") int id, @RequestBody Host host) {
+        System.out.println("Updating Host " + id);
 
         Host currentHost = null;
         try {
@@ -124,11 +124,11 @@ public class HostRestService {
 
 
 
-    //------------------- Delete a User --------------------------------------------------------
+    //------------------- Delete a Host --------------------------------------------------------
 
     @RequestMapping(value = "/host/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Void> deleteUser(@PathVariable("id") int id) {
-        System.out.println("Fetching & Deleting User with id " + id);
+    public ResponseEntity<Void> delete(@PathVariable("id") Integer id) {
+        System.out.println("Fetching & Deleting Host with id " + id);
 
         Host host = null;
         try {

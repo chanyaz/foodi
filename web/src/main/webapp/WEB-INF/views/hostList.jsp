@@ -30,7 +30,6 @@
             <thead>
             <tr>
                 <th>Host Name</th>
-                <th>Host Detail</th>
                 <th>Creation Date</th>
                 <th>Enabled</th>
                 <sec:authorize access="hasRole('ADMIN') or hasRole('DBA')">
@@ -46,20 +45,40 @@
             <c:forEach items="${hosts}" var="host">
                 <tr>
                     <td>${host.hostName}</td>
-                    <td>${host.hostDetail}</td>
                     <td>${host.creationDate}</td>
-                    <td>${host.enabled}</td>
                     <%--<td><img alt="" src="/imageLocator?img=Abort.png"></td>--%>
-                    <td><img src="<c:url value='/static/images/small/Yes.png'/>" /></td>
-                    <sec:authorize access="hasRole('ADMIN') or hasRole('DBA')">
-                        <td><a href="<c:url value='/host/manage-host-file-${host.hostId}' />" class="btn btn-success custom-width">images</a></td>
-                    </sec:authorize>
-                    <sec:authorize access="hasRole('ADMIN') or hasRole('DBA')">
-                        <td><a href="<c:url value='/host/edit-host-${host.hostId}' />" class="btn btn-success custom-width">edit</a></td>
-                    </sec:authorize>
-                    <sec:authorize access="hasRole('ADMIN')">
-                        <td><a href="<c:url value='/host/delete-host-${host.hostId}' />" class="btn btn-danger custom-width">delete</a></td>
-                    </sec:authorize>
+                    <td>
+                        <c:choose>
+                            <c:when test="${host.enabled}">
+                                <img src="<c:url value='/static/images/small/Yes.png'/>" />
+                            </c:when>
+                            <c:otherwise>
+                                <img src="<c:url value='/static/images/small/No.png'/>" />
+                            </c:otherwise>
+                        </c:choose>
+                    </td>
+                    <td>
+                        <table width="100%">
+                            <tr>
+                                <sec:authorize access="hasRole('ADMIN') or hasRole('DBA')">
+                                    <td><a href="<c:url value='/host/manage-attachment-${host.hostId}' />" class="btn btn-success custom-width">attachments</a></td>
+                                </sec:authorize>
+                                <sec:authorize access="hasRole('ADMIN') or hasRole('DBA')">
+                                    <td><a href="<c:url value='/host/manage-products-${host.hostId}' />" class="btn btn-success custom-width">products</a></td>
+                                </sec:authorize>
+                                <sec:authorize access="hasRole('ADMIN') or hasRole('DBA')">
+                                    <td><a href="<c:url value='/host/manage-category-${host.hostId}' />" class="btn btn-success custom-width">category</a></td>
+                                </sec:authorize>
+                                <sec:authorize access="hasRole('ADMIN') or hasRole('DBA')">
+                                    <td><a href="<c:url value='/host/edit-host-${host.hostId}' />" class="btn btn-success custom-width">edit</a></td>
+                                </sec:authorize>
+                                <sec:authorize access="hasRole('ADMIN')">
+                                    <td><a href="<c:url value='/host/delete-host-${host.hostId}' />" class="btn btn-danger custom-width">delete</a></td>
+                                </sec:authorize>
+                            </tr>
+                        </table>
+                    </td>
+
                 </tr>
             </c:forEach>
             </tbody>

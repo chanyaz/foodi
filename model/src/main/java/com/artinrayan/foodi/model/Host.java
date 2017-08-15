@@ -12,6 +12,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -115,12 +116,12 @@ public class Host implements Serializable{
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "host", cascade = CascadeType.ALL)
     @Fetch(FetchMode.SELECT)
     @JsonIgnore
-    private Set<HostFile> hostFiles;
+    private Set<Attachment> attachments;
 
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "host", orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "host", orphanRemoval = true)
 //    @Fetch(FetchMode.JOIN)
-//    @JsonIgnore
-//    private Set<HostAccess> hostAccesses = new HashSet<HostAccess>();
+    @JsonIgnore
+    private Set<Category> categories = new HashSet<Category>();
 
 
     public Integer getHostId() {
@@ -235,12 +236,12 @@ public class Host implements Serializable{
         this.longitude = longitude;
     }
 
-    public Set<HostFile> getHostFiles() {
-        return hostFiles;
+    public Set<Attachment> getAttachments() {
+        return attachments;
     }
 
-    public void setHostFiles(Set<HostFile> hostFiles) {
-        this.hostFiles = hostFiles;
+    public void setAttachments(Set<Attachment> attachments) {
+        this.attachments = attachments;
     }
 
     @Override

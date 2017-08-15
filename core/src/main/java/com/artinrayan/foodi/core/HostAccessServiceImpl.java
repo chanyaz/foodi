@@ -1,6 +1,6 @@
 package com.artinrayan.foodi.core;
 
-import com.artinrayan.foodi.model.HostAccess;
+import com.artinrayan.foodi.model.Category;
 import exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,22 +23,22 @@ public class HostAccessServiceImpl implements HostAccessService {
 
 
     @Override
-    public HostAccess findHostAccessById(int hostAccessId) throws BusinessException {
+    public Category findHostAccessById(int hostAccessId) throws BusinessException {
         return hostAccessDao.findHostAccessById(hostAccessId);
     }
 
     @Override
-    public List<HostAccess> findHostAccessByUserIdAndHostId(int userId, int hostAccessId) throws BusinessException {
+    public List<Category> findHostAccessByUserIdAndHostId(int userId, int hostAccessId) throws BusinessException {
         return hostAccessDao.findByUserIdAndHostId(userId, hostAccessId);
     }
 
     @Override
-    public List<HostAccess> findAllHostsAccesses() throws BusinessException {
+    public List<Category> findAllHostsAccesses() throws BusinessException {
         return hostAccessDao.findAllHostsAccesses();
     }
 
     @Override
-    public void saveHostAccess(HostAccess hostAccess) throws BusinessException {
+    public void saveHostAccess(Category hostAccess) throws BusinessException {
         hostAccessDao.save(hostAccess);
     }
 

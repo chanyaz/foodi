@@ -3,7 +3,6 @@ package com.artinrayan.foodi.core.impl;
 import com.artinrayan.foodi.core.AbstractDao;
 import com.artinrayan.foodi.core.HostDao;
 import com.artinrayan.foodi.model.Host;
-import com.artinrayan.foodi.model.HostFile;
 import com.artinrayan.foodi.model.User;
 import exceptions.HostDaoException;
 import org.hibernate.Criteria;
@@ -71,7 +70,7 @@ public class HostDaoImpl extends AbstractDao<Integer, Host> implements HostDao {
         Host host = (Host) query.uniqueResult();
 
         if (host != null) {
-            Hibernate.initialize(host.getHostFiles());
+            Hibernate.initialize(host.getAttachments());
         }
 
         return host;

@@ -153,6 +153,27 @@
             </c:when>
         </c:choose>
 
+        <%--<div class="col-md-7">--%>
+
+
+        <%--<form:radiobutton path="enabled" value="true" label="Active" />--%>
+        <%--<form:radiobutton path="enabled" value="false" label="Inactive" />--%>
+
+        <%--</div>--%>
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label class="col-md-3 control-lable" for="hostState">enabled</label>
+                <div class="col-md-7">
+                    <form:select path="enabled">
+                        <form:options items="${activationList}"/>
+                    </form:select>
+                    <div class="has-error">
+                        <form:errors path="enabled" class="help-inline"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
         <div class="row">
             <div class="form-actions floatRight">

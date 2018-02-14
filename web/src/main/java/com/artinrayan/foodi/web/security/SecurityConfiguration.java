@@ -1,11 +1,13 @@
 package com.artinrayan.foodi.web.security;
 
+import com.artinrayan.foodi.web.configuration.CsrfHeaderFilter;
 import com.artinrayan.foodi.web.security.handler.FoodiAuthenticationSuccessHandler;
 import com.artinrayan.foodi.web.security.handler.FoodiLogoutSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationTrustResolver;
 import org.springframework.security.authentication.AuthenticationTrustResolverImpl;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -18,8 +20,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
+import org.springframework.web.filter.CharacterEncodingFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -46,6 +50,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		CharacterEncodingFilter filter = new CharacterEncodingFilter();
+		filter.setEncoding("UTF-8");
+		filter.setForceEncoding(true);
+		http.addFilterBefore(filter,CsrfFilter.class);
+
+
+
 		http.authorizeRequests()
 		.antMatchers("/testHost").permitAll().
 				antMatchers("/").access("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
@@ -55,10 +66,18 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.access("hasRole('ADMIN') or hasRole('DBA')").and().formLogin().loginPage("/login")
 				.loginProcessingUrl("/login").usernameParameter("username").passwordParameter("password").and()
 				.rememberMe().rememberMeParameter("remember-me").tokenRepository(tokenRepository)
-				.tokenValiditySeconds(86400).and().csrf().csrfTokenRepository(csrfTokenRepository())
-				.and().formLogin().successHandler(foodiAuthenticationSuccessHandler)
+				.tokenValiditySeconds(86400).and()
+				.addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class)
+				.formLogin().successHandler(foodiAuthenticationSuccessHandler)
 				.and().logout().logoutSuccessHandler(foodiLogoutSuccessHandler)
-				.and().exceptionHandling().accessDeniedPage("/Access_Denied");
+				.and().exceptionHandling().accessDeniedPage("/Access_Denied").and()
+				.csrf().csrfTokenRepository(csrfTokenRepository());
+
+		http.authorizeRequests().antMatchers(HttpMethod.GET, "/**").permitAll();
+		http.authorizeRequests().antMatchers(HttpMethod.POST, "/**").permitAll();
+		http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/**").permitAll();
+		http.authorizeRequests().antMatchers(HttpMethod.PATCH, "/**").permitAll();
+		http.authorizeRequests().antMatchers(HttpMethod.PUT, "/**").permitAll();
 
 //		http
 //				.csrf().disable();

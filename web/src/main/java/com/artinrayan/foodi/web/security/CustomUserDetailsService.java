@@ -24,10 +24,10 @@ import java.util.List;
 public class CustomUserDetailsService implements UserDetailsService{
 
 	static final Logger logger = LoggerFactory.getLogger(CustomUserDetailsService.class);
-	
+
 	@Autowired
 	private UserService userService;
-	
+
 	@Transactional(readOnly=true)
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException {
@@ -49,10 +49,10 @@ public class CustomUserDetailsService implements UserDetailsService{
 
 	}
 
-	
+
 	private List<GrantedAuthority> getGrantedAuthorities(User user){
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-		
+
 		for(UserProfile userProfile : user.getUserProfiles()){
 			logger.info("UserProfile : {}", userProfile);
 			authorities.add(new SimpleGrantedAuthority("ROLE_"+userProfile.getType()));
@@ -60,5 +60,5 @@ public class CustomUserDetailsService implements UserDetailsService{
 		logger.info("authorities : {}", authorities);
 		return authorities;
 	}
-	
+
 }

@@ -5,17 +5,21 @@ import exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 
 @Service("userService")
-@Transactional
+@Transactional(propagation = Propagation.REQUIRED)
 public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserDao dao;
+
+	@Autowired
+	private EmailService emailService;
 
 	@Autowired
     private PasswordEncoder passwordEncoder;
@@ -43,6 +47,7 @@ public class UserServiceImpl implements UserService {
 	public void saveUser(User user) {
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		dao.save(user);
+		emailService.sendMail(user);
 	}
 
 	/*

@@ -11,6 +11,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,6 +46,7 @@ public class HostController {
 	AttachmentService attachmentService;
 
 	@Autowired
+//	@Qualifier(value = "categoryServiceTransactionalImpl")
 	CategoryService categoryService;
 
 
@@ -179,7 +181,7 @@ public class HostController {
      * @return
      */
 	@RequestMapping(value = { "/delete-host-{hostId}" }, method = RequestMethod.GET)
-	public String deleteHost(@PathVariable int hostId, Model model) {
+	public String removeHost(@PathVariable int hostId, Model model) {
 		try {
 			hostService.deleteHost(hostId);
 		} catch (BusinessException e) {
@@ -289,7 +291,7 @@ public class HostController {
 	 * @throws BusinessException
      */
 	@GetMapping("/manage-category-{hostId}")
-	public String prepareHostCategories(@PathVariable int hostId, ModelMap model) throws BusinessException {
+	public String manageHostCategories(@PathVariable int hostId, ModelMap model) throws BusinessException {
 
 		Host host = hostService.findHostByHostId(hostId);
 		List<Category> categories = categoryService.findHostCategoriesByHostId(host);

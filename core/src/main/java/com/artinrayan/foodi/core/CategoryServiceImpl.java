@@ -11,11 +11,16 @@ import java.util.List;
 /**
  * Created by asus on 8/14/2017.
  */
-@Service(value = "categoryService")
-@Transactional
+@Service
+@Transactional("categoryService")
 public class CategoryServiceImpl implements CategoryService{
 
     @Autowired CategoryDao categoryDao;
+
+    @Override
+    public void saveCategory(Category category) {
+
+    }
 
     @Override
     public List<Category> findHostCategoriesByHostId(Host host) {

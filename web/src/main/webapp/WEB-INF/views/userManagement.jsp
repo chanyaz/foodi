@@ -1,120 +1,115 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
 <html>
-  <head>  
-    <title>AngularJS ngResource Example</title>
-      <script src="<c:url value='/static/js/lib/angular.min.js' />"></script>
-      <script src="<c:url value='/static/js/lib/angular-resource.min.js' />"></script>
-      <script src="<c:url value='/static/js/app/user_app.js' />"></script>
+<head>
+<meta charset="ISO-8859-1">
+<title>User Management</title>
+<script
+	src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script type="text/javascript">
+	var app = angular.module('myapp', []);
 
-      <style>
-      .username.ng-valid {
-          background-color: lightgreen;
-      }
-      .username.ng-dirty.ng-invalid-required {
-          background-color: red;
-      }
-      .username.ng-dirty.ng-invalid-minlength {
-          background-color: yellow;
-      }
+	app.controller('myappcontroller', function($scope, $http) {
+		$scope.users = []
+		$scope.userform = {
+			name : "",
+			department : ""
+		};
 
-      .email.ng-valid {
-          background-color: lightgreen;
-      }
-      .email.ng-dirty.ng-invalid-required {
-          background-color: red;
-      }
-      .email.ng-dirty.ng-invalid-email {
-          background-color: yellow;
-      }
+		getUserDetails();
 
-    </style>
-     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-     <link href="<c:url value='/static/css/app.css' />" rel="stylesheet"/>
-  </head>
-  <body ng-app="myApp" class="ng-cloak">
-      <div class="generic-container" ng-controller="UserController as ctrl">
-          <div class="panel panel-default">
-              <div class="panel-heading"><span class="lead">User Registration Form </span></div>
-              <div class="formcontainer">
-                  <form ng-submit="ctrl.submit()" name="myForm" class="form-horizontal">
-                      <input type="hidden" ng-model="ctrl.user.id" />
-                      <div class="row">
-                          <div class="form-group col-md-12">
-                              <label class="col-md-2 control-lable" for="uname">Name</label>
-                              <div class="col-md-7">
-                                  <input type="text" ng-model="ctrl.user.username" id="uname" class="username form-control input-sm" placeholder="Enter your name" required ng-minlength="3"/>
-                                  <div class="has-error" ng-show="myForm.$dirty">
-                                      <span ng-show="myForm.uname.$error.required">This is a required field</span>
-                                      <span ng-show="myForm.uname.$error.minlength">Minimum length required is 3</span>
-                                      <span ng-show="myForm.uname.$invalid">This field is invalid </span>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                        
-                      
-                      <div class="row">
-                          <div class="form-group col-md-12">
-                              <label class="col-md-2 control-lable" for="address">Address</label>
-                              <div class="col-md-7">
-                                  <input type="text" ng-model="ctrl.user.address" id="address" class="form-control input-sm" placeholder="Enter your Address. [This field is validation free]"/>
-                              </div>
-                          </div>
-                      </div>
+		function getUserDetails() {
+			$http({
+				method : 'GET',
+				url : 'userdetails'
+			}).then(function successCallback(response) {
+				$scope.users = response.data;
+			}, function errorCallback(response) {
+				console.log(response.statusText);
+			});
+		}
 
-                      <div class="row">
-                          <div class="form-group col-md-12">
-                              <label class="col-md-2 control-lable" for="email">Email</label>
-                              <div class="col-md-7">
-                                  <input type="email" ng-model="ctrl.user.email" id="email" class="email form-control input-sm" placeholder="Enter your Email" required/>
-                                  <div class="has-error" ng-show="myForm.$dirty">
-                                      <span ng-show="myForm.email.$error.required">This is a required field</span>
-                                      <span ng-show="myForm.email.$invalid">This field is invalid </span>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
+		$scope.processUser = function() {
+			$http({
+				method : 'POST',
+				url : 'user',
+				data : angular.toJson($scope.userform),
+				headers : {
+					'Content-Type' : 'application/json'
+				}
+			}).then(getUserDetails(), clearForm())
+			  .success(function(data){
+				$scope.users= data
+		    });
+		}
+		$scope.editUser = function(user) {
+			$scope.userform.name = user.name;
+			$scope.userform.department = user.department;
+			disableName();
+		}
+		$scope.deleteUser = function(user) {
+			$http({
+				method : 'DELETE',
+				url : 'deleteuser',
+				data : angular.toJson(user),
+				headers : {
+					'Content-Type' : 'application/json'
+				}
+			}).then(getUserDetails());
+		}
 
-                      <div class="row">
-                          <div class="form-actions floatRight">
-                              <input type="submit"  value="{{!ctrl.user.id ? 'Add' : 'Update'}}" class="btn btn-primary btn-sm" ng-disabled="myForm.$invalid">
-                              <button type="button" ng-click="ctrl.reset()" class="btn btn-warning btn-sm" ng-disabled="myForm.$pristine">Reset Form</button>
-                          </div>
-                      </div>
-                  </form>
-              </div>
-          </div>
-          <div class="panel panel-default">
-                <!-- Default panel contents -->
-              <div class="panel-heading"><span class="lead">List of Users </span></div>
-              <div class="tablecontainer">
-                  <table class="table table-hover">
-                      <thead>
-                          <tr>
-                              <th>ID.</th>
-                              <th>Name</th>
-                              <th>Address</th>
-                              <th>Email</th>
-                              <th width="20%"></th>
-                          </tr>
-                      </thead>
-                      <tbody>
-                          <tr ng-repeat="u in ctrl.users">
-                              <td><span ng-bind="u.id"></span></td>
-                              <td><span ng-bind="u.username"></span></td>
-                              <td><span ng-bind="u.address"></span></td>
-                              <td><span ng-bind="u.email"></span></td>
-                              <td>
-                              <button type="button" ng-click="ctrl.edit(u.id)" class="btn btn-success custom-width">Edit</button>  <button type="button" ng-click="ctrl.remove(u.id)" class="btn btn-danger custom-width">Remove</button>
-                              </td>
-                          </tr>
-                      </tbody>
-                  </table>
-              </div>
-          </div>
-      </div>
-      
+		function clearForm() {
+			$scope.userform.name = "";
+			$scope.userform.department = "";
+			document.getElementById("name").disabled = false;
+		}
+		;
+		function disableName() {
+			document.getElementById("name").disabled = true;
+		}
+	});
+</script>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+</head>
+<body ng-app="myapp" ng-controller="myappcontroller">
+	<h3>User Registration Form</h3>
+	<form ng-submit="processUserDetails()">
+		<div class="table-responsive">
+			<table class="table table-bordered" style="width: 600px">
+				<tr>
+					<td>Name</td>
+					<td><input type="text" id="name" ng-model="userform.name"
+						size="30" /></td>
+				</tr>
+				<tr>
+					<td>Department</td>
+					<td><input type="text" id="department"
+						ng-model="userform.department" size="30" /></td>
+				</tr>
+				<tr>
+					<td colspan="2"><input type="submit"
+						class="btn btn-primary btn-sm" ng-click="processUser()"
+						value="Create / Update User" /></td>
+				</tr>
+			</table>
+		</div>
+	</form>
+	<h3>Registered Users</h3>
+	<div class="table-responsive">
+		<table class="table table-bordered" style="width: 600px">
+			<tr>
+				<th>Name</th>
+				<th>Department</th>
+				<th>Actions</th>
+			</tr>
 
-  </body>
+			<tr ng-repeat="user in users">
+				<td>{{ user.name}}</td>
+				<td>{{ user.department }}</td>
+				<td><a ng-click="editUser(user)" class="btn btn-primary btn-sm">Edit</a>
+					| <a ng-click="deleteUser(user)" class="btn btn-danger btn-sm">Delete</a></td>
+			</tr>
+		</table>
+	</div>
+</body>
 </html>

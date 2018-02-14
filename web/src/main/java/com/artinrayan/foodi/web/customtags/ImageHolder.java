@@ -39,14 +39,16 @@ public class ImageHolder extends SimpleTagSupport {
 
         try {
             Host host = hostService.findHostByHostId(ownerId);
-            Attachment attachment = (Attachment) host.getAttachments().toArray()[0];
+            if (host.getAttachments().size() > 0) {
+                Attachment attachment = (Attachment) host.getAttachments().toArray()[0];
 
-            JspWriter out = getJspContext().getOut();
-            byte[] encodeBase64 = Base64.encode(attachment.getFileContent());
-            String base64Encoded = new String(encodeBase64, "UTF-8");
-            String outputStr = "data:image" + (attachment.getFileType() != null ? attachment.getFileType()
-                    : "jpg") + ";base64," + base64Encoded;
-            out.print(outputStr);
+                JspWriter out = getJspContext().getOut();
+                byte[] encodeBase64 = Base64.encode(attachment.getFileContent());
+                String base64Encoded = new String(encodeBase64, "UTF-8");
+                String outputStr = "data:image" + (attachment.getFileType() != null ? attachment.getFileType()
+                        : "jpg") + ";base64," + base64Encoded;
+                out.print(outputStr);
+            }
         }
         catch (BusinessException e) {
             e.printStackTrace();

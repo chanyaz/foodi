@@ -1,5 +1,5 @@
 
-var App = angular.module('myApp',['ngResource']);
+var App = angular.module('hostApp',['ngResource']);
 
 App.factory('Host', ['$resource', function ($resource) {
     //$resource() function returns an object of resource class

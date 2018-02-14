@@ -6,7 +6,6 @@
 <html>
 
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<title>User Registration Form</title>
 	<link href="<c:url value='/static/css/bootstrap.css' />" rel="stylesheet"/>
 	<link href="<c:url value='/static/css/app.css' />" rel="stylesheet"/>
@@ -18,6 +17,7 @@
 
 		<div class="well lead">User Registration Form</div>
 	 	<form:form method="POST" modelAttribute="user" class="form-horizontal">
+			<form:input type="hidden" path="id" hostId="id"/>
 
 			<div class="row">
 				<div class="form-group col-md-12">

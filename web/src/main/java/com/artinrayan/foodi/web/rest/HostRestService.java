@@ -36,7 +36,7 @@ public class HostRestService {
 
     //-------------------Retrieve All Hosts--------------------------------------------------------
 
-    @RequestMapping(value = "/host", method = RequestMethod.GET)
+    @RequestMapping(value = "/hostdetails", method = RequestMethod.GET)
     public ResponseEntity<List<Host>> listAllHosts() {
         List<Host> hosts = null;
         try {
@@ -69,10 +69,8 @@ public class HostRestService {
             e.printStackTrace();
         }
 
-        return new ResponseEntity<Host>(host, HttpStatus.OK);
+        return new ResponseEntity<Host>(host, HttpStatus.NO_CONTENT);
     }
-
-
 
     //-------------------Create a Host--------------------------------------------------------
 
@@ -126,20 +124,16 @@ public class HostRestService {
 
     //------------------- Delete a Host --------------------------------------------------------
 
-    @RequestMapping(value = "/host/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Void> delete(@PathVariable("id") Integer id) {
-        System.out.println("Fetching & Deleting Host with id " + id);
+    @RequestMapping(value="/deletehost",consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)
+    public ResponseEntity DeleteUser(@RequestBody Host host) {
 
-        Host host = null;
         try {
-            hostService.deleteHost(id);
-
-            Host currentHost = hostService.findHostByHostId(id);
+            Host currentHost = hostService.findHostByHostId(host.getHostId());
             if (currentHost == null) {
-                System.out.println("Unable to delete. HOst with id " + id + " not found");
+                System.out.println("Unable to delete. Host with id " + host.getHostId() + " not found");
                 return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
             }
-            hostService.deleteHost(id);
+            hostService.deleteHost(host.getHostId());
 
         } catch (BusinessException e) {
             e.printStackTrace();
@@ -147,5 +141,6 @@ public class HostRestService {
 
         return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
     }
+
 
 }

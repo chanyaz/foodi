@@ -10,5 +10,7 @@ import java.util.List;
  */
 public interface CategoryService {
 
+    void saveCategory (Category category);
+
     List<Category> findHostCategoriesByHostId(Host host);
 }

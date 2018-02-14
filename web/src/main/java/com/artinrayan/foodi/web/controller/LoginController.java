@@ -45,9 +45,14 @@ public class LoginController {
     {
     }
 
-    @RequestMapping(value = "/test", method = RequestMethod.GET)
+//    @RequestMapping(value = "/test", method = RequestMethod.GET)
+//    public String userManagementPage() {
+//        return "userManagement";
+//    }
+
+    @RequestMapping(value = "/testUser", method = RequestMethod.GET)
     public String userManagementPage() {
-        return "userManagement";
+        return "UserManagement";
     }
 
     @RequestMapping(value = "/testHost", method = RequestMethod.GET)

@@ -55,7 +55,7 @@ public class CategoryDaoImpl extends AbstractDao<Integer, Category> implements C
     public List<Category> findCategoryByHostId(Host host) {
         logger.info("hostId : {}", host.getHostId());
         Criteria crit = createEntityCriteria();
-        crit.add(Restrictions.eq("user", host));
+        crit.add(Restrictions.eq("host", host));
         List<Category> categories = crit.list();
         return categories;
     }

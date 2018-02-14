@@ -16,7 +16,6 @@
 <html>
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <title>foodi</title>
     <link href="<c:url value='/static/css/bootstrap.css' />" rel="stylesheet"/>
     <link href="<c:url value='/static/css/app.css' />" rel="stylesheet"/>
@@ -25,8 +24,6 @@
     <script src="<c:url value="/static/js/mainMap.js"/>"></script>
     <script src="<c:url value="/static/js/lib/jquery-3.2.1.min.js"/>"></script>
 
-    <script>
-    </script>
 </head>
 
 
@@ -48,7 +45,7 @@
                                 <tbody>
                                     <c:forEach items="${hosts}" var="host">
                                         <tr>
-                                            <td><img width="150px" height="100px" src="<f:showImage ownerId="${host.hostId}"/>"</td>
+                                            <td><img width="150px" height="100px" src="<f:showImage ownerId="${host.hostId}"/>"></td>
 
                                             <td><a href="#" onclick="jumpToLocation(${host.hostId},
                                                 ${host.latitude}, ${host.longitude})">${host.hostName}</a></td>

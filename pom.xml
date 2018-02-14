@@ -28,7 +28,9 @@
         <jcl.slf4j.version>1.7.12</jcl.slf4j.version>
         <jstl.version>1.2</jstl.version>
         <servletapi.version>3.1.0</servletapi.version>
-    </properties>
+        <project.java.version>1.8</project.java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>    </properties>
 
     <dependencies>
         <!-- Spring -->
@@ -196,6 +198,13 @@
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>${logback.version}</version>
+        </dependency>
+
+        <!-- Selenium -->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>3.7.1</version>
         </dependency>
 
     </dependencies>
